@@ -6,7 +6,7 @@ import pyautogui
 import os
 
 # Path to the gesture recognition model
-model_path = "D:/Uni/FS2025/MMI - Multimodal interfaces/tripleml/CSCI376-DS2-main/gesture_recognizer.task"  # Update this to the correct path where the model is saved
+model_path = "CSCI376-DS2-main/gesture_recognizer.task"  # Update this to the correct path where the model is saved
 if os.path.exists(model_path):
     print("Model file found")
 else:
