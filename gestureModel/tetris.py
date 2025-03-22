@@ -24,39 +24,42 @@ mp_hands = mp.solutions.hands
 mp_drawing = mp.solutions.drawing_utils
 
 # Function to detect if the index finger is definitively pointing right or left
-def recognize_pointing(hand_landmarks):
+def recognize_pointing(hand_landmarks, confidence, horizontal_threshold = 0.3, thumb_threshold = 0.1):
     wrist = hand_landmarks.landmark[mp_hands.HandLandmark.WRIST]
     index_mcp = hand_landmarks.landmark[mp_hands.HandLandmark.INDEX_FINGER_MCP]  # Index finger base
     index_tip = hand_landmarks.landmark[mp_hands.HandLandmark.INDEX_FINGER_TIP]
-
+    thumb_tip = hand_landmarks.landmark[mp_hands.HandLandmark.THUMB_TIP]
+    thumb_base = hand_landmarks.landmark[mp_hands.HandLandmark.THUMB_MCP]  # Thumb base joint
     # Check if the index finger is definitively angled to the side
     index_vector = (index_tip.x - index_mcp.x, index_tip.y - index_mcp.y)
     finger_slope = index_vector[1] / index_vector[0] if index_vector[0] != 0 else float('inf')  # Slope of the finger
-    print(abs(finger_slope))
-    if abs(finger_slope) < 0.3:  # Ensure the finger is roughly horizontal (adjust threshold as needed)
+    #print(abs(finger_slope))
+    if abs(finger_slope) < horizontal_threshold:  # Ensure the finger is roughly horizontal (adjust threshold as needed)
+        if thumb_tip.y - thumb_base.y > thumb_threshold or thumb_base.y - thumb_tip.y > thumb_threshold:
+            if thumb_tip.y < thumb_base.y:
+                print("Thumbs Up Detected")
+                #print(f"thumb_tip.y: {thumb_tip.y} / thumb_base.y: {thumb_base.y}")
+            elif thumb_tip.y > thumb_base.y:
+                print("Thumbs Down Detected")
+                #print(f"thumb_tip.y: {thumb_tip.y} / thumb_base.y: {thumb_base.y}")
+
         if index_tip.x > wrist.x:
-            print("MOVE_RIGHT")
+            print("Pointing Right")
             return "Pointing Right"
         elif index_tip.x < wrist.x:
-            print("MOVE_LEFT")
+            print("Pointing Left")
             return "Pointing Left"
-        print(abs(finger_slope))
-        print(wrist.x)
-    # if abs(finger_slope) > 0.3:  # Ensure the finger is roughly horizontal (adjust threshold as needed)
-    #     if abs(finger_slope) > 5:
-    #         print("MOVE_UP")
-    #         return "Pointing Up"
-    #     elif abs(finger_slope) < 5:
-    #         print("MOVE_DOWN")
-    #         return "Pointing Down"
-    #     print(abs(finger_slope))
 
-    # Check if the finger is pointing upwards or downwards (based on the y-coordinate)
-    if index_tip.y < wrist.y:  # If the tip is above the wrist, the finger is pointing up
-        print("MOVE_UP")
+    if index_tip.y < wrist.y:  # If the index tip is above the wrist, the finger is pointing up
+        print(f"thumb_tip.x: {thumb_tip.x} / index_tip.x: {index_tip.x}")
+        if ((thumb_tip.x < index_tip.x or thumb_tip.x > index_tip.x)
+                and (thumb_tip.x - index_tip.x > thumb_threshold or index_tip.x - thumb_tip.x > thumb_threshold)):
+            print("Thumbs Up Detected")
         return "Pointing Up"
     elif index_tip.y > wrist.y:  # If the tip is below the wrist, the finger is pointing down
-        print("MOVE_DOWN")
+        if ((thumb_tip.x < index_tip.x or thumb_tip.x > index_tip.x)
+                and (thumb_tip.x - index_tip.x > thumb_threshold or index_tip.x - thumb_tip.x > thumb_threshold)):
+            print("Thumbs Up Detected")
         return "Pointing Down"
     return None
 
@@ -101,14 +104,16 @@ def main():
                 # Recognize pointing gestures with hand landmarks
                 if results.multi_hand_landmarks:
                     for hand_landmarks in results.multi_hand_landmarks:
-                        pointing_direction = recognize_pointing(hand_landmarks)
+                        pointing_direction = recognize_pointing(hand_landmarks, confidence)
                         if pointing_direction == "Pointing Right":
                             pyautogui.press("right")
                         if pointing_direction == "Pointing Left":
                             pyautogui.press("left")
                         if pointing_direction == "Pointing Up":
+                            print("MOVE_UP")
                             pyautogui.press("up")
                         elif pointing_direction == "Pointing Down":
+                            print("MOVE_DOWN")
                             pyautogui.press("down")
                         
                         # Draw hand landmarks
@@ -119,12 +124,15 @@ def main():
                 # Example of pressing keys with pyautogui based on other recognized gestures
                 if recognized_gesture == "Open_Palm":
                     printed_gesture = recognized_gesture
+                    print("open_palm")
                     pyautogui.press("up")
                 elif recognized_gesture == "Thumb_Down":
                     printed_gesture = recognized_gesture
+                    #print("thumb down")
                     pyautogui.press("down")
                 elif recognized_gesture == "Victory":
                     printed_gesture = recognized_gesture
+                    #print("victory")
                     pyautogui.press("space")
 
                 pyautogui.PAUSE=0.3
