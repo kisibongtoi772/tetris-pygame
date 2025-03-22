@@ -1,31 +1,6 @@
 import random
 import pygame
 
-import mediapipe as mp
-from mediapipe.tasks.python.vision import GestureRecognizer, GestureRecognizerOptions
-from mediapipe.tasks.python import BaseOptions
-import pyautogui
-import os
-import cv2
-import gesture_model #from "gesture_model.py"
-# Path to the gesture recognition model
-model_path = "gestureModel/CSCI376-DS2-main/gesture_recognizer.task"  # Update this to the correct path where the model is saved
-if os.path.exists(model_path):
-    print("Model file found")
-else:
-    print("Model file NOT found")
-
-# Initialize the Gesture Recognizer
-options = GestureRecognizerOptions(
-    base_options=BaseOptions(model_asset_path=model_path),
-    num_hands=1
-)
-gesture_recognizer = GestureRecognizer.create_from_options(options)
-
-# Initialize Mediapipe hands for custom pointing gesture detection
-mp_hands = mp.solutions.hands
-mp_drawing = mp.solutions.drawing_utils
-
 """
 10 x 20 grid
 play_height = 2 * play_width
@@ -252,7 +227,7 @@ def get_shape():
 
 # draws text in the middle
 def draw_text_middle(text, size, color, surface):
-    font = pygame.font.Font(fontpath, size)
+    font = pygame.font.Font(fontpath, size, bold=False, italic=True)
     label = font.render(text, 1, color)
 
     surface.blit(label, (top_left_x + play_width/2 - (label.get_width()/2), top_left_y + play_height/2 - (label.get_height()/2)))
@@ -331,7 +306,7 @@ def draw_window(surface, grid, score=0, last_score=0):
     surface.fill((0, 0, 0))  # fill the surface with black
 
     pygame.font.init()  # initialise font
-    font = pygame.font.Font(fontpath_mario, 65)
+    font = pygame.font.Font(fontpath_mario, 65, bold=True)
     label = font.render('TETRIS', 1, (255, 255, 255))  # initialise 'Tetris' text with white
 
     surface.blit(label, ((top_left_x + play_width / 2) - (label.get_width() / 2), 30))  # put surface on the center of the window
@@ -392,7 +367,7 @@ def get_max_score():
     return score
 
 
-def main(window, cap):
+def main(window):
     locked_positions = {}
     create_grid(locked_positions)
 
@@ -406,170 +381,98 @@ def main(window, cap):
     level_time = 0
     score = 0
     last_score = get_max_score()
-    with mp_hands.Hands(
-            max_num_hands=1,
-            min_detection_confidence=0.5,
-            min_tracking_confidence=0.5
-    ) as hands:
-        while run and cap.isOpened():
-            grid = create_grid(locked_positions)
 
-            # helps run the same on every computer
-            # add time since last tick() to fall_time
-            fall_time += clock.get_rawtime()  # returns in milliseconds
-            level_time += clock.get_rawtime()
+    while run:
+        # need to constantly make new grid as locked positions always change
+        grid = create_grid(locked_positions)
 
-            clock.tick()  # updates clock
-            success, image = cap.read()
-            if not success:
-                print("Ignoring empty camera frame.")
-                continue
+        # helps run the same on every computer
+        # add time since last tick() to fall_time
+        fall_time += clock.get_rawtime()  # returns in milliseconds
+        level_time += clock.get_rawtime()
 
-            # Flip the image horizontally and convert the BGR image to RGB.
-            image = cv2.flip(image, 1)
-            image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        clock.tick()  # updates clock
 
-            # Convert the image to a Mediapipe Image object for the gesture recognizer
-            mp_image = mp.Image(image_format=mp.ImageFormat.SRGB, data=image_rgb)
+        if level_time/1000 > 5:    # make the difficulty harder every 10 seconds
+            level_time = 0
+            if fall_speed > 0.15:   # until fall speed is 0.15
+                fall_speed -= 0.005
 
-            # Perform gesture recognition on the image
-            result = gesture_recognizer.recognize(mp_image)
+        if fall_time / 1000 > fall_speed:
+            fall_time = 0
+            current_piece.y += 1
+            if not valid_space(current_piece, grid) and current_piece.y > 0:
+                current_piece.y -= 1
+                # since only checking for down - either reached bottom or hit another piece
+                # need to lock the piece position
+                # need to generate new piece
+                change_piece = True
 
-            # Convert the image to hand landmarks to detect pointing gestures
-            image_rgb.flags.writeable = False
-            results = hands.process(image_rgb)
-            image_rgb.flags.writeable = True
-            image = cv2.cvtColor(image_rgb, cv2.COLOR_RGB2BGR)
-
-            # need to constantly make new grid as locked positions always change
-            if level_time/1000 > 5:    # make the difficulty harder every 10 seconds
-                level_time = 0
-                if fall_speed > 0.15:   # until fall speed is 0.15
-                    fall_speed -= 0.005
-
-            if fall_time / 1000 > fall_speed:
-                fall_time = 0
-                current_piece.y += 1
-                if not valid_space(current_piece, grid) and current_piece.y > 0:
-                    current_piece.y -= 1
-                    # since only checking for down - either reached bottom or hit another piece
-                    # need to lock the piece position
-                    # need to generate new piece
-                    change_piece = True
-
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    run = False
-                    pygame.display.quit()
-                    quit()
-
-                elif result.gestures:
-                    printed_gesture = None
-                    recognized_gesture = result.gestures[0][0].category_name
-                    confidence = result.gestures[0][0].score
-
-                    # Recognize pointing gestures with hand landmarks
-                    if results.multi_hand_landmarks:
-                        for hand_landmarks in results.multi_hand_landmarks:
-                            pointing_direction = gesture_model.recognize_pointing(hand_landmarks)
-                            if pointing_direction == "Pointing Right":
-                                #pyautogui.press("right")
-                                current_piece.x += 1  # move x position right
-                                if not valid_space(current_piece, grid):
-                                    current_piece.x -= 1
-                            if pointing_direction == "Pointing Left":
-                                #pyautogui.press("left")
-                                current_piece.x -= 1  # move x position left
-                                if not valid_space(current_piece, grid):
-                                    current_piece.x += 1
-                            if pointing_direction == "Pointing Up":
-                                # rotate shape
-                                current_piece.rotation = current_piece.rotation + 1 % len(current_piece.shape)
-                                if not valid_space(current_piece, grid):
-                                    current_piece.rotation = current_piece.rotation - 1 % len(current_piece.shape)
-                            elif pointing_direction == "Pointing Down":
-                                # move shape down
-                                current_piece.y += 1
-                                if not valid_space(current_piece, grid):
-                                    current_piece.y -= 1
-                            #Draw hand landmarks
-                            mp_drawing.draw_landmarks(image, hand_landmarks, mp_hands.HAND_CONNECTIONS)
-                            printed_gesture = pointing_direction
-                # elif event.type == pygame.KEYDOWN:
-                #     if event.key == pygame.K_LEFT:
-                #     elif event.key == pygame.K_RIGHT:
-                #     elif event.key == pygame.K_DOWN:
-                #     elif event.key == pygame.K_UP:
-                    # Example of pressing keys with pyautogui based on other recognized gestures
-                    if recognized_gesture == "Open_Palm":
-                        printed_gesture = recognized_gesture
-                        #pyautogui.press("up")
-                        current_piece.rotation = current_piece.rotation + 1 % len(current_piece.shape)
-                        if not valid_space(current_piece, grid):
-                            current_piece.rotation = current_piece.rotation - 1 % len(current_piece.shape)
-                    elif recognized_gesture == "Thumb_Down":
-                        printed_gesture = recognized_gesture
-                        #pyautogui.press("down")
-                        current_piece.y += 1
-                        if not valid_space(current_piece, grid):
-                            current_piece.y -= 1
-                    elif recognized_gesture == "Victory":
-                        printed_gesture = recognized_gesture
-                        pyautogui.press("space")
-
-                    pyautogui.PAUSE = 0.3
-
-                    # Display recognized gesture and confidence
-                    cv2.putText(image, f"Gesture: {printed_gesture} ({confidence:.2f})",
-                                (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)
-
-                    # Display the resulting image (can comment this out for better performance later on)
-                    cv2.imshow('Gesture Recognition', image)
-
-                    if cv2.waitKey(5) & 0xFF == 27:  # Press 'Esc' to quit
-                        break
-
-            piece_pos = convert_shape_format(current_piece)
-
-            # draw the piece on the grid by giving color in the piece locations
-            for i in range(len(piece_pos)):
-                x, y = piece_pos[i]
-                if y >= 0:
-                    grid[y][x] = current_piece.color
-
-            if change_piece:  # if the piece is locked
-                for pos in piece_pos:
-                    p = (pos[0], pos[1])
-                    locked_positions[p] = current_piece.color       # add the key and value in the dictionary
-                current_piece = next_piece
-                next_piece = get_shape()
-                change_piece = False
-                score += clear_rows(grid, locked_positions) * 10    # increment score by 10 for every row cleared
-                update_score(score)
-
-                if last_score < score:
-                    last_score = score
-
-            draw_window(window, grid, score, last_score)
-            draw_next_shape(next_piece, window)
-            pygame.display.update()
-
-            if check_lost(locked_positions):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
                 run = False
+                pygame.display.quit()
+                quit()
+
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_LEFT:
+                    current_piece.x -= 1  # move x position left
+                    if not valid_space(current_piece, grid):
+                        current_piece.x += 1
+
+                elif event.key == pygame.K_RIGHT:
+                    current_piece.x += 1  # move x position right
+                    if not valid_space(current_piece, grid):
+                        current_piece.x -= 1
+
+                elif event.key == pygame.K_DOWN:
+                    # move shape down
+                    current_piece.y += 1
+                    if not valid_space(current_piece, grid):
+                        current_piece.y -= 1
+
+                elif event.key == pygame.K_UP:
+                    # rotate shape
+                    current_piece.rotation = current_piece.rotation + 1 % len(current_piece.shape)
+                    if not valid_space(current_piece, grid):
+                        current_piece.rotation = current_piece.rotation - 1 % len(current_piece.shape)
+
+        piece_pos = convert_shape_format(current_piece)
+
+        # draw the piece on the grid by giving color in the piece locations
+        for i in range(len(piece_pos)):
+            x, y = piece_pos[i]
+            if y >= 0:
+                grid[y][x] = current_piece.color
+
+        if change_piece:  # if the piece is locked
+            for pos in piece_pos:
+                p = (pos[0], pos[1])
+                locked_positions[p] = current_piece.color       # add the key and value in the dictionary
+            current_piece = next_piece
+            next_piece = get_shape()
+            change_piece = False
+            score += clear_rows(grid, locked_positions) * 10    # increment score by 10 for every row cleared
+            update_score(score)
+
+            if last_score < score:
+                last_score = score
+
+        draw_window(window, grid, score, last_score)
+        draw_next_shape(next_piece, window)
+        pygame.display.update()
+
+        if check_lost(locked_positions):
+            run = False
 
     draw_text_middle('You Lost', 40, (255, 255, 255), window)
-
     pygame.display.update()
     pygame.time.delay(2000)  # wait for 2 seconds
-
-    cap.release()
-    cv2.destroyAllWindows()
     pygame.quit()
+
 
 def main_menu(window):
     run = True
-    # Initialize video capture
-    cap = cv2.VideoCapture(0)  # 0 is the default webcam
     while run:
         draw_text_middle('Press any key to begin', 50, (255, 255, 255), window)
         pygame.display.update()
@@ -578,7 +481,7 @@ def main_menu(window):
             if event.type == pygame.QUIT:
                 run = False
             elif event.type == pygame.KEYDOWN:
-                main(window, cap)
+                main(window)
 
     pygame.quit()
 

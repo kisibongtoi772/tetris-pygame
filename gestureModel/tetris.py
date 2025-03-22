@@ -30,18 +30,16 @@ def recognize_pointing(hand_landmarks, confidence, horizontal_threshold = 0.3, t
     index_tip = hand_landmarks.landmark[mp_hands.HandLandmark.INDEX_FINGER_TIP]
     thumb_tip = hand_landmarks.landmark[mp_hands.HandLandmark.THUMB_TIP]
     thumb_base = hand_landmarks.landmark[mp_hands.HandLandmark.THUMB_MCP]  # Thumb base joint
+
     # Check if the index finger is definitively angled to the side
     index_vector = (index_tip.x - index_mcp.x, index_tip.y - index_mcp.y)
     finger_slope = index_vector[1] / index_vector[0] if index_vector[0] != 0 else float('inf')  # Slope of the finger
-    #print(abs(finger_slope))
     if abs(finger_slope) < horizontal_threshold:  # Ensure the finger is roughly horizontal (adjust threshold as needed)
         if thumb_tip.y - thumb_base.y > thumb_threshold or thumb_base.y - thumb_tip.y > thumb_threshold:
             if thumb_tip.y < thumb_base.y:
                 print("Thumbs Up Detected")
-                #print(f"thumb_tip.y: {thumb_tip.y} / thumb_base.y: {thumb_base.y}")
             elif thumb_tip.y > thumb_base.y:
                 print("Thumbs Down Detected")
-                #print(f"thumb_tip.y: {thumb_tip.y} / thumb_base.y: {thumb_base.y}")
 
         if index_tip.x > wrist.x:
             print("Pointing Right")
@@ -51,7 +49,6 @@ def recognize_pointing(hand_landmarks, confidence, horizontal_threshold = 0.3, t
             return "Pointing Left"
 
     if index_tip.y < wrist.y:  # If the index tip is above the wrist, the finger is pointing up
-        print(f"thumb_tip.x: {thumb_tip.x} / index_tip.x: {index_tip.x}")
         if ((thumb_tip.x < index_tip.x or thumb_tip.x > index_tip.x)
                 and (thumb_tip.x - index_tip.x > thumb_threshold or index_tip.x - thumb_tip.x > thumb_threshold)):
             print("Thumbs Up Detected")
