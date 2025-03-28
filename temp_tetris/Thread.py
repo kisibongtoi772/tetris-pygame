@@ -5,8 +5,10 @@ from VoiceCommandRec import VoiceCommandRecognizer
 import torch
 import wave
 from LoadSpect import load_spectrogram
-from KafkaProd import send_voice_command
-
+import queue
+import os
+# Create a shared queue for voice commands
+command_queue = queue.Queue()
 
 def listen_for_voice_commands():
     # Setup audio recording
@@ -19,7 +21,9 @@ def listen_for_voice_commands():
 
     # Load the trained model
     model = VoiceCommandRecognizer()
-    model.load_state_dict(torch.load('voice_command_recognizer.pth'))
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    voice_model = os.path.join(base_dir, 'voice_model.pth')
+    model.load_state_dict(torch.load(voice_model))
     model.eval()
 
     # Command mapping
@@ -54,9 +58,9 @@ def listen_for_voice_commands():
                 predicted_class = output.argmax(dim=1).item()
                 command = commands[predicted_class]
 
-            # Send to Kafka
-            send_voice_command(command)
-            print(f"Recognized and sent command: {command}")
+            # Put command in queue instead of sending to Kafka
+            command_queue.put(command)
+            print(f"Recognized command: {command}")
 
         except Exception as e:
             print(f"Error in voice processing: {e}")
@@ -67,8 +71,8 @@ def listen_for_voice_commands():
     p.terminate()
 
 
-
-tetris_game = TetrisGame()
+# Pass the command queue to the TetrisGame
+tetris_game = TetrisGame(command_queue)
 game_thread = threading.Thread(target=tetris_game.run)
 game_thread.start()
 

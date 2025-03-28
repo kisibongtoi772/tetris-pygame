@@ -11,7 +11,7 @@ class VoiceCommandRecognizer(nn.Module):
         self.pool1 = nn.MaxPool2d(kernel_size=2, stride=2)
         self.conv2 = nn.Conv2d(16, 32, kernel_size=3, stride=1, padding=1)
         self.pool2 = nn.MaxPool2d(kernel_size=2, stride=2)
-        self.fc1 = nn.Linear(32 * 11 * 9, 128)
+        self.fc1 = nn.Linear(32 * 24 * 28, 128)
         self.fc2 = nn.Linear(128, 4)
 
     def forward(self, x):
@@ -21,7 +21,7 @@ class VoiceCommandRecognizer(nn.Module):
         x = self.conv2(x)
         x = F.relu(x)
         x = self.pool2(x)
-        x = x.view(-1, 32 * 11 * 9)
+        x = x.view(-1, 32 * 24 * 28)
         x = self.fc1(x)
         x = F.relu(x)
         x = self.fc2(x)

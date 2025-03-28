@@ -47,7 +47,9 @@ class VoiceCommandRecognizer(nn.Module):
 
 # Function to load a spectrogram from a file
 def load_spectrogram(filename):
-    y, sr = librosa.load(filename, sr=44100, mono=True)
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    filenpath = os.path.join(base_dir, filename)
+    y, sr = librosa.load(filenpath, sr=44100, mono=True)
     spectrogram = librosa.feature.melspectrogram(y=y, sr=sr, n_fft=2048, hop_length=1024)
     spectrogram = librosa.power_to_db(spectrogram, ref=np.max)
     spectrogram = spectrogram.astype(np.float32)
