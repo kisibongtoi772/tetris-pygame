@@ -24,7 +24,7 @@ class VoiceCommandRecognizer(nn.Module):
         self.fc_input_size = sample_output.numel()  # Get the number of elements
 
         self.fc1 = nn.Linear(self.fc_input_size, 128)
-        self.fc2 = nn.Linear(128, 4)
+        self.fc2 = nn.Linear(128, 5)
 
     def forward_feature_extractor(self, x):
         """ Extract features without flattening for size calculation. """
@@ -72,8 +72,11 @@ class VoiceCommandDataset(Dataset):
 
 # Define dataset
 files = ['rotation_left_1.wav', 'rotation_left_2.wav', 'rotation_left_3.wav', 'rotation_left_4.wav',
-         'rotation_right_1.wav', 'rotation_right_2.wav', 'rotation_right_3.wav', 'rotation_right_4.wav']
-labels = [0, 0, 0, 0, 1, 1, 1, 1]  # 0 = rotation left, 1 = rotation right
+         'rotation_right_1.wav', 'rotation_right_2.wav', 'rotation_right_3.wav', 'rotation_right_4.wav',
+          "move_left_1.wav", "move_left_2.wav", "move_left_3.wav", "move_left_4.wav",
+          "move_right_1.wav", "move_right_2.wav", "move_right_3.wav","move_right_4.wav",
+          "down_1.wav", "down_2.wav", "down_3.wav", "down_4.wav"]
+labels = [0, 0, 0, 0, 1, 1, 1, 1,2,2,2,2,3,3,3,3,4,4,4,4]  # 0 = rotation left, 1 = rotation right, 2 = move left, 3 = move_right, 4 = down
 
 dataset = VoiceCommandDataset(files, labels)
 dataloader = DataLoader(dataset, batch_size=4, shuffle=True)

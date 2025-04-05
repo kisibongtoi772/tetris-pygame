@@ -42,7 +42,7 @@ def record_audio(output_file):
     wf.close()
 
 # Loop to record multiple files
-commands = ["rotation_left","rotation_right"]
+commands = ["rotation_left","rotation_right","move_left","move_right","down"]
 num_files_per_command = 4 # Number of recordings per command
 
 for command in commands:
