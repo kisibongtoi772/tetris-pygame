@@ -41,9 +41,20 @@ def record_audio(output_file):
     wf.writeframes(b''.join(frames))
     wf.close()
 
+# Loop to record more files without overwriting old ones
+commands = ["rotation_left", "rotation_right", "move_left", "move_right", "down"]
+start_index = 25  # Start numbering
+end_index = 36    # Ending number
+
+for command in commands:
+    for i in range(start_index, end_index + 1):
+        filename = f"{command}_{i}.wav"
+        record_audio(filename)
+        time.sleep(2)
+"""
 # Loop to record multiple files
 commands = ["rotation_left","rotation_right","move_left","move_right","down"]
-num_files_per_command = 4 # Number of recordings per command
+num_files_per_command = 12 # Number of recordings per command
 
 for command in commands:
     for i in range (1,num_files_per_command+1):
@@ -51,4 +62,4 @@ for command in commands:
         record_audio(filename)
         time.sleep(2)
 
-
+"""
