@@ -1,6 +1,44 @@
 import random
 import pygame
 
+from kafka import KafkaConsumer
+import json
+import threading
+import queue
+
+command_queue = queue.Queue()
+
+def kafka_consumer_thread():
+    try:
+        consumer = KafkaConsumer(
+            'tetris-commands',
+            bootstrap_servers=['localhost:9092'],
+            auto_offset_reset='latest',
+            enable_auto_commit=True,
+            group_id='tetris-game',
+            value_deserializer=lambda x: json.loads(x.decode('utf-8'))
+        )
+        print("Kafka consumer connected and listening for commands")
+        
+        for message in consumer:
+            command = message.value.get('command')
+            if command:
+                command_queue.put(command)
+                print(f"Received command: {command}")
+    except Exception as e:
+        print(f"Kafka consumer error: {e}")
+    finally:
+        print("Kafka consumer stopped")
+# Start Kafka consumer in a background thread
+def start_kafka_consumer():
+    try:
+        kafka_thread = threading.Thread(target=kafka_consumer_thread, daemon=True)
+        kafka_thread.start()
+        return kafka_thread
+    except Exception as e:
+        print(f"Failed to start Kafka consumer thread: {e}")
+        return None
+    
 """
 10 x 20 grid
 play_height = 2 * play_width
@@ -14,7 +52,7 @@ tetriminos:
     5 - L - orange
     6 - T - purple
 """
-
+pygame.init()
 pygame.font.init()
 
 # global variables
@@ -407,7 +445,37 @@ def main(window):
                 # need to lock the piece position
                 # need to generate new piece
                 change_piece = True
-
+        try:
+            while not command_queue.empty():
+                command = command_queue.get_nowait()
+                print(f"Command from Kafka: {command}")
+                
+                if command == "left":
+                    current_piece.x -= 1
+                    if not valid_space(current_piece, grid):
+                        current_piece.x += 1
+                        
+                elif command == "right":
+                    current_piece.x += 1
+                    if not valid_space(current_piece, grid):
+                        current_piece.x -= 1
+                        
+                elif command == "down":
+                    current_piece.y += 1
+                    if not valid_space(current_piece, grid):
+                        current_piece.y -= 1
+                        
+                elif command == "up":
+                    current_piece.rotation = current_piece.rotation + 1 % len(current_piece.shape)
+                    if not valid_space(current_piece, grid):
+                        current_piece.rotation = current_piece.rotation - 1 % len(current_piece.shape)
+                        
+                elif command == "quit":
+                    run = False
+                    
+        except Exception as e:
+            print(f"Error processing command: {e}")
+            
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
@@ -485,9 +553,34 @@ def main_menu(window):
 
     pygame.quit()
 
+command_queue = queue.Queue()
+
+# Kafka consumer thread function
+def kafka_consumer_thread():
+    try:
+        consumer = KafkaConsumer(
+            'tetris-commands',
+            bootstrap_servers=['localhost:9092'],
+            auto_offset_reset='latest',
+            enable_auto_commit=True,
+            group_id='tetris-game',
+            value_deserializer=lambda x: json.loads(x.decode('utf-8'))
+        )
+        print("Kafka consumer connected and listening for commands")
+        
+        for message in consumer:
+            command = message.value.get('command')
+            if command:
+                command_queue.put(command)
+                print(f"Received command: {command}")
+    except Exception as e:
+        print(f"Kafka consumer error: {e}")
+    finally:
+        print("Kafka consumer stopped")
+
 
 if __name__ == '__main__':
     win = pygame.display.set_mode((s_width, s_height))
     pygame.display.set_caption('Tetris')
-
+    start_kafka_consumer()
     main_menu(win)  # start game

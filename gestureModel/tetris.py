@@ -4,6 +4,7 @@ from mediapipe.tasks.python.vision import GestureRecognizer, GestureRecognizerOp
 from mediapipe.tasks.python import BaseOptions
 import pyautogui
 import os
+from kafka_producer import TetrisKafkaProducer
 
 # Path to the gesture recognition model
 model_path = "CSCI376-DS2-main/gesture_recognizer.task"  # Update this to the correct path where the model is saved
@@ -64,7 +65,7 @@ def recognize_pointing(hand_landmarks, confidence, horizontal_threshold = 0.3, t
 def main():
     # Initialize video capture
     cap = cv2.VideoCapture(0)  # 0 is the default webcam
-
+    kafka_producer = TetrisKafkaProducer()
     with mp_hands.Hands(
         max_num_hands=1,
         min_detection_confidence=0.5,
@@ -104,18 +105,18 @@ def main():
                         pointing_direction = recognize_pointing(hand_landmarks, confidence)
                         if pointing_direction == "Pointing Right":
                             pyautogui.press("right")
+                            kafka_producer.send_command("right")
                         if pointing_direction == "Pointing Left":
                             pyautogui.press("left")
+                            kafka_producer.send_command("left")
                         if pointing_direction == "Pointing Up":
-                            print("MOVE_UP")
                             pyautogui.press("up")
+                            kafka_producer.send_command("up")
                         elif pointing_direction == "Pointing Down":
-                            print("MOVE_DOWN")
+                            kafka_producer.send_command("down")
                             pyautogui.press("down")
-                        
                         # Draw hand landmarks
                         mp_drawing.draw_landmarks(image, hand_landmarks, mp_hands.HAND_CONNECTIONS)
-                        
                         printed_gesture = pointing_direction
 
                 # Example of pressing keys with pyautogui based on other recognized gestures
@@ -147,6 +148,7 @@ def main():
 
     cap.release()
     cv2.destroyAllWindows()
+
 
 if __name__ == "__main__":
     main()
