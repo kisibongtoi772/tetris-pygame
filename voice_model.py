@@ -5,7 +5,7 @@ import librosa
 import numpy as np
 import pyaudio
 import wave
-
+import os
 
 # -----------------------------
 # 1. Define your model class
@@ -48,6 +48,11 @@ class VoiceCommandRecognizer(nn.Module):
 # 2. Function to record audio
 # -----------------------------
 def record_audio(output_file="test.wav", duration=2):
+    # Check if the file exists and delete it to ensure fresh recording each time
+    if os.path.exists(output_file):
+        print(f"Deleting previous file: {output_file}")
+        os.remove(output_file)  # This deletes the old file before recording
+
     chunk = 1024
     sample_format = pyaudio.paInt16
     channels = 1
@@ -99,22 +104,3 @@ def predict_command(model, audio_path):
         output = model(x_tensor)
         predicted_idx = torch.argmax(output, dim=1).item()
     return predicted_idx
-
-# -----------------------------
-# 5. Main testing logic
-# -----------------------------
-if __name__ == "__main__":
-    command_labels = ["rotation_left", "rotation_right", "move_left", "move_right", "down"]
-
-    # Step 1: Record voice
-    record_audio("test.wav", duration=2)
-
-    # Step 2: Load model
-    model = VoiceCommandRecognizer()
-    model.load_state_dict(torch.load("voice_model.pth", map_location="cpu"))
-
-    # Step 3: Predict command
-    predicted_index = predict_command(model, "test.wav")
-    predicted_command = command_labels[predicted_index]
-
-    print(f"\n🧠 Predicted Command: **{predicted_command}**")

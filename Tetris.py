@@ -591,7 +591,7 @@ def record_and_predict_command():
 
     # Step 1: Record the audio
     print("Recording audio...")
-    voice_model.record_audio("test.wav", duration=2)  # Record the audio clip (2 seconds)
+    voice_model.record_audio("voiceModel/test.wav", duration=2)  # Record the audio clip (2 seconds)
 
     # Step 2: Load model
     model = voice_model.VoiceCommandRecognizer()
@@ -621,5 +621,4 @@ if __name__ == '__main__':
     win = pygame.display.set_mode((s_width, s_height))
     pygame.display.set_caption('Tetris')
     start_kafka_consumer()
-    record_and_predict_command()
     main_menu(win)  # start game
