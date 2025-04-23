@@ -61,6 +61,32 @@ def recognize_pointing(hand_landmarks, confidence, horizontal_threshold = 0.3, t
         return "Pointing Down"
     return None
 
+def is_hand_closed(hand_landmarks, closed_threshold=0.1):
+    """
+    Detect if the hand is closed (fist-like gesture).
+    Args:
+        hand_landmarks: Mediapipe hand landmarks.
+        closed_threshold: Distance threshold to determine if fingers are closed.
+    Returns:
+        True if the hand is closed, False otherwise.
+    """
+    fingers_closed = True
+
+    # Check if all fingertips are close to their respective MCP joints
+    for finger_tip, finger_mcp in [
+        (mp_hands.HandLandmark.INDEX_FINGER_TIP, mp_hands.HandLandmark.INDEX_FINGER_MCP),
+        (mp_hands.HandLandmark.MIDDLE_FINGER_TIP, mp_hands.HandLandmark.MIDDLE_FINGER_MCP),
+        (mp_hands.HandLandmark.RING_FINGER_TIP, mp_hands.HandLandmark.RING_FINGER_MCP),
+        (mp_hands.HandLandmark.PINKY_TIP, mp_hands.HandLandmark.PINKY_MCP),
+    ]:
+        tip = hand_landmarks.landmark[finger_tip]
+        mcp = hand_landmarks.landmark[finger_mcp]
+        distance = ((tip.x - mcp.x) ** 2 + (tip.y - mcp.y) ** 2 + (tip.z - mcp.z) ** 2) ** 0.5
+        if distance > closed_threshold:
+            fingers_closed = False
+            break
+
+    return fingers_closed
 
 def main():
     # Initialize video capture
@@ -102,19 +128,24 @@ def main():
                 # Recognize pointing gestures with hand landmarks
                 if results.multi_hand_landmarks:
                     for hand_landmarks in results.multi_hand_landmarks:
+
+                        if is_hand_closed(hand_landmarks):
+                            # pyautogui.press("space")  # Example action for "hold hand"
+                            cv2.putText(image, "Hold Hand Detected", (10, 60), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2, cv2.LINE_AA)
+                        
                         pointing_direction = recognize_pointing(hand_landmarks, confidence)
                         if pointing_direction == "Pointing Right":
-                            pyautogui.press("right")
+                            # pyautogui.press("right")
                             kafka_producer.send_command("right")
                         if pointing_direction == "Pointing Left":
-                            pyautogui.press("left")
+                            # pyautogui.press("left")
                             kafka_producer.send_command("left")
                         if pointing_direction == "Pointing Up":
-                            pyautogui.press("up")
+                            # pyautogui.press("up")
                             kafka_producer.send_command("up")
                         elif pointing_direction == "Pointing Down":
                             kafka_producer.send_command("down")
-                            pyautogui.press("down")
+                            # pyautogui.press("down")
                         # Draw hand landmarks
                         mp_drawing.draw_landmarks(image, hand_landmarks, mp_hands.HAND_CONNECTIONS)
                         printed_gesture = pointing_direction
@@ -133,7 +164,7 @@ def main():
                     #print("victory")
                     pyautogui.press("space")
 
-                pyautogui.PAUSE=0.3
+                pyautogui.PAUSE=0.01
 
                 # Display recognized gesture and confidence 
                 cv2.putText(image, f"Gesture: {printed_gesture} ({confidence:.2f})", 
