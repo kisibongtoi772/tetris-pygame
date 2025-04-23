@@ -6,6 +6,7 @@ import numpy as np
 import pyaudio
 import wave
 
+
 # -----------------------------
 # 1. Define your model class
 # -----------------------------
