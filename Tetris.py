@@ -1,11 +1,15 @@
 import random
 import pygame
+import voice_model
+import torch
 
 from kafka import KafkaConsumer
+
 import json
 import threading
 import queue
 
+voice_command = None  # Global to hold the latest voice result
 command_queue = queue.Queue()
 
 def kafka_consumer_thread():
@@ -540,11 +544,15 @@ def main(window):
 
 
 def main_menu(window):
+    global voice_command
     run = True
+
+    # Start the voice thread only once
+    voice_thread = threading.Thread(target=voice_listener_loop, daemon=True)
+    voice_thread.start()
     while run:
         draw_text_middle('Press any key to begin', 50, (255, 255, 255), window)
         pygame.display.update()
-
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
@@ -578,6 +586,36 @@ def kafka_consumer_thread():
     finally:
         print("Kafka consumer stopped")
 
+def record_and_predict_command():
+    command_labels = ["rotation_left", "rotation_right", "move_left", "move_right", "down"]
+
+    # Step 1: Record the audio
+    print("Recording audio...")
+    voice_model.record_audio("voiceModel/test.wav", duration=2)  # Record the audio clip (2 seconds)
+
+    # Step 2: Load model
+    model = voice_model.VoiceCommandRecognizer()
+    model.load_state_dict(torch.load("voiceModel/voice_model.pth", map_location="cpu"))
+
+    # Step 3: Predict command
+    print("Predicting command...")
+    predicted_index = voice_model.predict_command(model, "voiceModel/test.wav")
+    predicted_command = command_labels[predicted_index]
+
+    print(f"\n🧠 Predicted Command: **{predicted_command}**")
+
+    # Step 4: Add the predicted command to the queue
+    command_queue.put(predicted_command)  # Put the predicted command into the queue
+    print(f"Predicted command added to the queue: {predicted_command}")
+    return predicted_command
+
+def voice_listener_loop():
+    global voice_command
+    while True:
+        try:
+            record_and_predict_command()
+        except Exception as e:
+            print(f"[Voice Thread] Error: {e}")
 
 if __name__ == '__main__':
     win = pygame.display.set_mode((s_width, s_height))
