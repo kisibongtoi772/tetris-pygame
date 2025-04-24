@@ -1,6 +1,48 @@
 import random
 import pygame
+import voice_model
+import torch
 
+from kafka import KafkaConsumer
+
+import json
+import threading
+import queue
+
+voice_command = None  # Global to hold the latest voice result
+command_queue = queue.Queue()
+
+def kafka_consumer_thread():
+    try:
+        consumer = KafkaConsumer(
+            'tetris-commands',
+            bootstrap_servers=['localhost:9092'],
+            auto_offset_reset='latest',
+            enable_auto_commit=True,
+            group_id='tetris-game',
+            value_deserializer=lambda x: json.loads(x.decode('utf-8'))
+        )
+        print("Kafka consumer connected and listening for commands")
+        
+        for message in consumer:
+            command = message.value.get('command')
+            if command:
+                command_queue.put(command)
+                print(f"Received command: {command}")
+    except Exception as e:
+        print(f"Kafka consumer error: {e}")
+    finally:
+        print("Kafka consumer stopped")
+# Start Kafka consumer in a background thread
+def start_kafka_consumer():
+    try:
+        kafka_thread = threading.Thread(target=kafka_consumer_thread, daemon=True)
+        kafka_thread.start()
+        return kafka_thread
+    except Exception as e:
+        print(f"Failed to start Kafka consumer thread: {e}")
+        return None
+    
 """
 10 x 20 grid
 play_height = 2 * play_width
@@ -14,7 +56,7 @@ tetriminos:
     5 - L - orange
     6 - T - purple
 """
-
+pygame.init()
 pygame.font.init()
 
 # global variables
@@ -227,7 +269,7 @@ def get_shape():
 
 # draws text in the middle
 def draw_text_middle(text, size, color, surface):
-    font = pygame.font.Font(fontpath, size, bold=False, italic=True)
+    font = pygame.font.Font(fontpath, size)
     label = font.render(text, 1, color)
 
     surface.blit(label, (top_left_x + play_width/2 - (label.get_width()/2), top_left_y + play_height/2 - (label.get_height()/2)))
@@ -306,7 +348,7 @@ def draw_window(surface, grid, score=0, last_score=0):
     surface.fill((0, 0, 0))  # fill the surface with black
 
     pygame.font.init()  # initialise font
-    font = pygame.font.Font(fontpath_mario, 65, bold=True)
+    font = pygame.font.Font(fontpath_mario, 65)
     label = font.render('TETRIS', 1, (255, 255, 255))  # initialise 'Tetris' text with white
 
     surface.blit(label, ((top_left_x + play_width / 2) - (label.get_width() / 2), 30))  # put surface on the center of the window
@@ -407,7 +449,37 @@ def main(window):
                 # need to lock the piece position
                 # need to generate new piece
                 change_piece = True
-
+        try:
+            while not command_queue.empty():
+                command = command_queue.get_nowait()
+                print(f"Command from Kafka: {command}")
+                
+                if command == "left":
+                    current_piece.x -= 1
+                    if not valid_space(current_piece, grid):
+                        current_piece.x += 1
+                        
+                elif command == "right":
+                    current_piece.x += 1
+                    if not valid_space(current_piece, grid):
+                        current_piece.x -= 1
+                        
+                elif command == "down":
+                    current_piece.y += 1
+                    if not valid_space(current_piece, grid):
+                        current_piece.y -= 1
+                        
+                elif command == "up":
+                    current_piece.rotation = current_piece.rotation + 1 % len(current_piece.shape)
+                    if not valid_space(current_piece, grid):
+                        current_piece.rotation = current_piece.rotation - 1 % len(current_piece.shape)
+                        
+                elif command == "quit":
+                    run = False
+                    
+        except Exception as e:
+            print(f"Error processing command: {e}")
+            
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
@@ -472,11 +544,15 @@ def main(window):
 
 
 def main_menu(window):
+    global voice_command
     run = True
+
+    # Start the voice thread only once
+    voice_thread = threading.Thread(target=voice_listener_loop, daemon=True)
+    voice_thread.start()
     while run:
         draw_text_middle('Press any key to begin', 50, (255, 255, 255), window)
         pygame.display.update()
-
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
@@ -485,9 +561,64 @@ def main_menu(window):
 
     pygame.quit()
 
+command_queue = queue.Queue()
+
+# Kafka consumer thread function
+def kafka_consumer_thread():
+    try:
+        consumer = KafkaConsumer(
+            'tetris-commands',
+            bootstrap_servers=['localhost:9092'],
+            auto_offset_reset='latest',
+            enable_auto_commit=True,
+            group_id='tetris-game',
+            value_deserializer=lambda x: json.loads(x.decode('utf-8'))
+        )
+        print("Kafka consumer connected and listening for commands")
+        
+        for message in consumer:
+            command = message.value.get('command')
+            if command:
+                command_queue.put(command)
+                print(f"Received command: {command}")
+    except Exception as e:
+        print(f"Kafka consumer error: {e}")
+    finally:
+        print("Kafka consumer stopped")
+
+def record_and_predict_command():
+    command_labels = ["rotation_left", "rotation_right", "move_left", "move_right", "down"]
+
+    # Step 1: Record the audio
+    print("Recording audio...")
+    voice_model.record_audio("voiceModel/test.wav", duration=2)  # Record the audio clip (2 seconds)
+
+    # Step 2: Load model
+    model = voice_model.VoiceCommandRecognizer()
+    model.load_state_dict(torch.load("voiceModel/voice_model.pth", map_location="cpu"))
+
+    # Step 3: Predict command
+    print("Predicting command...")
+    predicted_index = voice_model.predict_command(model, "voiceModel/test.wav")
+    predicted_command = command_labels[predicted_index]
+
+    print(f"\n🧠 Predicted Command: **{predicted_command}**")
+
+    # Step 4: Add the predicted command to the queue
+    command_queue.put(predicted_command)  # Put the predicted command into the queue
+    print(f"Predicted command added to the queue: {predicted_command}")
+    return predicted_command
+
+def voice_listener_loop():
+    global voice_command
+    while True:
+        try:
+            record_and_predict_command()
+        except Exception as e:
+            print(f"[Voice Thread] Error: {e}")
 
 if __name__ == '__main__':
     win = pygame.display.set_mode((s_width, s_height))
     pygame.display.set_caption('Tetris')
-
+    start_kafka_consumer()
     main_menu(win)  # start game
