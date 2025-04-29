@@ -4,7 +4,12 @@ from mediapipe.tasks.python.vision import GestureRecognizer, GestureRecognizerOp
 from mediapipe.tasks.python import BaseOptions
 import pyautogui
 import os
-from kafka_producer import TetrisKafkaProducer
+import sys
+
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from common.kafka_producer import TetrisKafkaProducer
+import time
 
 # Path to the gesture recognition model
 model_path = "CSCI376-DS2-main/gesture_recognizer.task"  # Update this to the correct path where the model is saved
@@ -25,17 +30,24 @@ mp_hands = mp.solutions.hands
 mp_drawing = mp.solutions.drawing_utils
 
 # Function to detect if the index finger is definitively pointing right or left
-def recognize_pointing(hand_landmarks, confidence, horizontal_threshold = 0.3, thumb_threshold = 0.1):
+def recognize_pointing(hand_landmarks, confidence, horizontal_threshold=0.3, thumb_threshold=0.1, vertical_threshold=3.0):
     wrist = hand_landmarks.landmark[mp_hands.HandLandmark.WRIST]
     index_mcp = hand_landmarks.landmark[mp_hands.HandLandmark.INDEX_FINGER_MCP]  # Index finger base
     index_tip = hand_landmarks.landmark[mp_hands.HandLandmark.INDEX_FINGER_TIP]
+    index_pip = hand_landmarks.landmark[mp_hands.HandLandmark.INDEX_FINGER_PIP]  # Index middle joint
+    middle_tip = hand_landmarks.landmark[mp_hands.HandLandmark.MIDDLE_FINGER_TIP]
+    middle_pip = hand_landmarks.landmark[mp_hands.HandLandmark.MIDDLE_FINGER_PIP]
     thumb_tip = hand_landmarks.landmark[mp_hands.HandLandmark.THUMB_TIP]
     thumb_base = hand_landmarks.landmark[mp_hands.HandLandmark.THUMB_MCP]  # Thumb base joint
 
     # Check if the index finger is definitively angled to the side
     index_vector = (index_tip.x - index_mcp.x, index_tip.y - index_mcp.y)
     finger_slope = index_vector[1] / index_vector[0] if index_vector[0] != 0 else float('inf')  # Slope of the finger
-    if abs(finger_slope) < horizontal_threshold:  # Ensure the finger is roughly horizontal (adjust threshold as needed)
+    
+    # Calculate the absolute slope for verticality check
+    abs_slope = abs(finger_slope)
+    
+    if abs_slope < horizontal_threshold:  # Ensure the finger is roughly horizontal
         if thumb_tip.y - thumb_base.y > thumb_threshold or thumb_base.y - thumb_tip.y > thumb_threshold:
             if thumb_tip.y < thumb_base.y:
                 print("Thumbs Up Detected")
@@ -49,56 +61,60 @@ def recognize_pointing(hand_landmarks, confidence, horizontal_threshold = 0.3, t
             print("Pointing Left")
             return "Pointing Left"
 
-    if index_tip.y < wrist.y:  # If the index tip is above the wrist, the finger is pointing up
-        if ((thumb_tip.x < index_tip.x or thumb_tip.x > index_tip.x)
-                and (thumb_tip.x - index_tip.x > thumb_threshold or index_tip.x - thumb_tip.x > thumb_threshold)):
-            print("Thumbs Up Detected")
-        return "Pointing Up"
+    # Check for index finger pointing up vs thumb up
+    if index_tip.y < wrist.y:  # We're in the upper region
+        # Check if fingers are curled (except thumb)
+        index_curled = index_tip.y > index_pip.y 
+        middle_curled = middle_tip.y > middle_pip.y
+        
+        # Check if thumb is extended upward significantly
+        thumb_extended_up = thumb_tip.y < thumb_base.y - 0.12
+        
+        # If thumb is up and fingers are curled, it's a thumb up gesture
+        if thumb_extended_up and index_curled and middle_curled:
+            print("Thumb Up - Confirmed")
+            return "Thumb_Up"
+            
+        # For pointing up, require the finger to be nearly vertical
+        if not index_curled:
+            # Check if the index finger is vertical enough
+            # abs_slope is large when vertical, small when horizontal
+            print(f"Finger slope: {abs_slope:.2f}, threshold: {vertical_threshold}")
+            
+            if abs_slope > vertical_threshold:  # Requiring a steep slope for vertical pointing
+                # Also ensure the finger is actually pointing up not down
+                if index_tip.y < index_mcp.y:  # Tip is above base
+                    print(f"Pointing Up - Verified Vertical (slope: {abs_slope:.2f})")
+                    return "Pointing Up"
+                else:
+                    print("Not pointing Up - finger tip below base")
+            else:
+                print(f"Not vertical enough for Pointing Up (slope: {abs_slope:.2f})")
+            
     elif index_tip.y > wrist.y:  # If the tip is below the wrist, the finger is pointing down
         if ((thumb_tip.x < index_tip.x or thumb_tip.x > index_tip.x)
                 and (thumb_tip.x - index_tip.x > thumb_threshold or index_tip.x - thumb_tip.x > thumb_threshold)):
-            print("Thumbs Up Detected")
+            print("Thumbs Down Detected")
+            return "Thumb_Down"
         return "Pointing Down"
+            
     return None
 
-def is_hand_closed(hand_landmarks, closed_threshold=0.1):
-    """
-    Detect if the hand is closed (fist-like gesture).
-    Args:
-        hand_landmarks: Mediapipe hand landmarks.
-        closed_threshold: Distance threshold to determine if fingers are closed.
-    Returns:
-        True if the hand is closed, False otherwise.
-    """
-    fingers_closed = True
-
-    # Check if all fingertips are close to their respective MCP joints
-    for finger_tip, finger_mcp in [
-        (mp_hands.HandLandmark.INDEX_FINGER_TIP, mp_hands.HandLandmark.INDEX_FINGER_MCP),
-        (mp_hands.HandLandmark.MIDDLE_FINGER_TIP, mp_hands.HandLandmark.MIDDLE_FINGER_MCP),
-        (mp_hands.HandLandmark.RING_FINGER_TIP, mp_hands.HandLandmark.RING_FINGER_MCP),
-        (mp_hands.HandLandmark.PINKY_TIP, mp_hands.HandLandmark.PINKY_MCP),
-    ]:
-        tip = hand_landmarks.landmark[finger_tip]
-        mcp = hand_landmarks.landmark[finger_mcp]
-        distance = ((tip.x - mcp.x) ** 2 + (tip.y - mcp.y) ** 2 + (tip.z - mcp.z) ** 2) ** 0.5
-        if distance > closed_threshold:
-            fingers_closed = False
-            break
-
-    return fingers_closed
-
+last_command_time = 0
+COMMAND_COOLDOWN = 0.5
 def main():
+    global last_command_time, last_speed_time
     # Initialize video capture
     cap = cv2.VideoCapture(0)  # 0 is the default webcam
-    kafka_producer = TetrisKafkaProducer()
+    kafka_producer = TetrisKafkaProducer().get_instance()
     with mp_hands.Hands(
         max_num_hands=1,
         min_detection_confidence=0.5,
         min_tracking_confidence=0.5
     ) as hands:
-
         while cap.isOpened():
+            current_time = time.time()
+            can_send_command = current_time - last_command_time > COMMAND_COOLDOWN
             success, image = cap.read()
             if not success:
                 print("Ignoring empty camera frame.")
@@ -125,27 +141,36 @@ def main():
                 recognized_gesture = result.gestures[0][0].category_name
                 confidence = result.gestures[0][0].score
 
+            
                 # Recognize pointing gestures with hand landmarks
                 if results.multi_hand_landmarks:
                     for hand_landmarks in results.multi_hand_landmarks:
-
-                        if is_hand_closed(hand_landmarks):
-                            # pyautogui.press("space")  # Example action for "hold hand"
-                            cv2.putText(image, "Hold Hand Detected", (10, 60), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2, cv2.LINE_AA)
                         
                         pointing_direction = recognize_pointing(hand_landmarks, confidence)
-                        if pointing_direction == "Pointing Right":
-                            # pyautogui.press("right")
-                            kafka_producer.send_command("right")
-                        if pointing_direction == "Pointing Left":
-                            # pyautogui.press("left")
-                            kafka_producer.send_command("left")
-                        if pointing_direction == "Pointing Up":
-                            # pyautogui.press("up")
-                            kafka_producer.send_command("up")
-                        elif pointing_direction == "Pointing Down":
-                            kafka_producer.send_command("down")
-                            # pyautogui.press("down")
+                        if can_send_command:
+                            print(f"Pointing Direction: {pointing_direction}")
+                            if pointing_direction == "Pointing Right":
+                                # pyautogui.press("right")
+                                kafka_producer.send_command("right")
+                                last_command_time = current_time
+
+                            if pointing_direction == "Pointing Left":
+                                # pyautogui.press("left")
+                                kafka_producer.send_command("left")
+                                last_command_time = current_time
+
+                            if pointing_direction == "Pointing Up":
+                                # pyautogui.press("up")
+                                kafka_producer.send_command("speed")
+                                last_command_time = current_time
+
+                            elif pointing_direction == "Pointing Down":
+                                kafka_producer.send_command("down")
+                                last_command_time = current_time
+                            
+                                # pyautogui.press("down")
+                            
+                            
                         # Draw hand landmarks
                         mp_drawing.draw_landmarks(image, hand_landmarks, mp_hands.HAND_CONNECTIONS)
                         printed_gesture = pointing_direction
@@ -155,10 +180,14 @@ def main():
                     printed_gesture = recognized_gesture
                     print("open_palm")
                     pyautogui.press("up")
+                elif recognized_gesture == "Thumb_Up":
+                    printed_gesture = recognized_gesture
+                    #print("thumb down")
+                    kafka_producer.send_command("yes")
                 elif recognized_gesture == "Thumb_Down":
                     printed_gesture = recognized_gesture
                     #print("thumb down")
-                    pyautogui.press("down")
+                    kafka_producer.send_command("no")
                 elif recognized_gesture == "Victory":
                     printed_gesture = recognized_gesture
                     #print("victory")
@@ -179,6 +208,7 @@ def main():
 
     cap.release()
     cv2.destroyAllWindows()
+    kafka_producer.close()
 
 
 if __name__ == "__main__":
