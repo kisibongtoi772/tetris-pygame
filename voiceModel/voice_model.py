@@ -25,7 +25,7 @@ class VoiceCommandRecognizer(nn.Module):
         self.fc_input_size = sample_output.numel()
 
         self.fc1 = nn.Linear(self.fc_input_size, 128)
-        self.fc2 = nn.Linear(128, 5)
+        self.fc2 = nn.Linear(128, 9)
 
     def forward_feature_extractor(self, x):
         x = self.conv1(x)
@@ -96,7 +96,7 @@ def load_spectrogram(filename):
 # -----------------------------
 # 4. Prediction function
 # -----------------------------
-def predict_command(model, audio_path):
+def predict_command(model, audio_path, threshold=0.7):
     model.eval()
     x = load_spectrogram(audio_path)
     x_tensor = torch.tensor(x)

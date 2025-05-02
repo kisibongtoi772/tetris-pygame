@@ -27,18 +27,16 @@ class VoiceRecognizer:
     def predict_command(self):
         if not self.model_loaded:
             self.load_model()
-            
         try:
             # Record audio
             voice_model.record_audio("test.wav", duration=2)
-            
+
             # Predict command
             predicted_index = voice_model.predict_command(self.model, "test.wav")
             predicted_command = self.command_labels[predicted_index]
-            
+
             print(f"\n🧠 Predicted Command: **{predicted_command}**")
             return predicted_command
-        
         except Exception as e:
             print(f"Error predicting voice command: {e}")
             return None
