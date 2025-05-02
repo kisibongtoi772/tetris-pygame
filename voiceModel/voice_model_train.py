@@ -69,10 +69,9 @@ class VoiceCommandDataset(Dataset):
         y = self.labels[index]
         return x, y
 
-
 # Define the commands
-commands = ["rotation_left", "rotation_right", "move_left", "move_right", "down", "yes", "no", "pause", "speed"]
-
+vr = VoiceRecognizer()  # create object
+commands = vr.command_labels  # ["rotation_left", "rotation_right", "move_left", "move_right", "down", "yes", "no", "pause", "speed"]
 # Generate the files
 files = []
 labels = []
@@ -81,7 +80,6 @@ for label, command in enumerate(commands):
     for i in range(1, 37):  # 1 to 36 inclusive
         files.append(f"{command}_{i}.wav")
         labels.append(label)  # 0 for first command, 1 for second, etc.
-
 
 dataset = VoiceCommandDataset(files, labels)
 dataloader = DataLoader(dataset, batch_size=4, shuffle=True)

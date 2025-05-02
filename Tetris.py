@@ -1,6 +1,5 @@
 import random
 import pygame
-import voice_model
 import torch
 
 from kafka import KafkaConsumer
@@ -8,6 +7,7 @@ from kafka import KafkaConsumer
 import json
 import threading
 import queue
+import time
 
 voice_command = None  # Global to hold the latest voice result
 command_queue = queue.Queue()
@@ -42,7 +42,7 @@ def start_kafka_consumer():
     except Exception as e:
         print(f"Failed to start Kafka consumer thread: {e}")
         return None
-    
+
 """
 10 x 20 grid
 play_height = 2 * play_width
@@ -269,6 +269,8 @@ def get_shape():
 
 # draws text in the middle
 def draw_text_middle(text, size, color, surface):
+    if not pygame.font.get_init():
+        pygame.font.init()
     font = pygame.font.Font(fontpath, size)
     label = font.render(text, 1, color)
 
@@ -386,7 +388,42 @@ def draw_window(surface, grid, score=0, last_score=0):
     border_color = (255, 255, 255)
     pygame.draw.rect(surface, border_color, (top_left_x, top_left_y, play_width, play_height), 4)
 
-    # pygame.display.update()
+    border_color = (255, 255, 255)
+    pygame.draw.rect(surface, border_color, (top_left_x, top_left_y, play_width, play_height), 4)
+
+    # Show confirmation message if awaiting confirmation
+    global pending_command, awaiting_confirmation
+    if awaiting_confirmation and pending_command:
+        # Create a semi-transparent overlay
+        overlay = pygame.Surface((play_width, play_height), pygame.SRCALPHA)
+        overlay.fill((0, 0, 0, 160))  # Black with 60% opacity
+        surface.blit(overlay, (top_left_x, top_left_y))
+        
+        # Draw confirmation box
+        box_width, box_height = 260, 120
+        box_x = top_left_x + play_width//2 - box_width//2
+        box_y = top_left_y + play_height//2 - box_height//2
+        
+        # Background and border
+        pygame.draw.rect(surface, (50, 50, 50), (box_x, box_y, box_width, box_height))
+        pygame.draw.rect(surface, (255, 255, 255), (box_x, box_y, box_width, box_height), 2)
+        
+        # Title
+        font = pygame.font.Font(fontpath, 20)
+        title = f"Confirm {pending_command}"
+        title_text = font.render(title, True, (255, 255, 255))
+        surface.blit(title_text, (box_x + box_width//2 - title_text.get_width()//2, box_y + 20))
+        
+        # Instructions
+        inst = "Say Yes or No"
+        inst_text = font.render(inst, True, (255, 200, 0))
+        surface.blit(inst_text, (box_x + box_width//2 - inst_text.get_width()//2, box_y + 60))
+        
+        # Timer
+        time_left = max(0, confirmation_timeout - (time.time() - pending_command_time))
+        timer = f"{int(time_left)}s"  # Show just whole seconds with 's' suffix
+        timer_text = font.render(timer, True, (200, 200, 200))
+        surface.blit(timer_text, (box_x + box_width//2 - timer_text.get_width()//2, box_y + 90))
 
 
 # update the score txt file with high score
@@ -408,6 +445,13 @@ def get_max_score():
 
     return score
 
+pending_command = None
+pending_command_time = 0
+commands_requiring_confirmation = ["pause", "speed"]
+confirmed_commands = ["yes", "no"]
+confirmation_timeout = 7 
+is_paused = False
+awaiting_confirmation = False  # Add this new flag to track confirmation state
 
 def main(window):
     locked_positions = {}
@@ -423,60 +467,110 @@ def main(window):
     level_time = 0
     score = 0
     last_score = get_max_score()
+    global pending_command, pending_command_time, is_paused, awaiting_confirmation
 
     while run:
+        # Check if pending command has timed out
+        if pending_command and time.time() - pending_command_time > confirmation_timeout:
+            print(f"Command {pending_command} timed out waiting for confirmation")
+            pending_command = None
+            awaiting_confirmation = False  # Reset confirmation state
+        
         # need to constantly make new grid as locked positions always change
         grid = create_grid(locked_positions)
 
-        # helps run the same on every computer
-        # add time since last tick() to fall_time
-        fall_time += clock.get_rawtime()  # returns in milliseconds
-        level_time += clock.get_rawtime()
+        # Only update game state if not paused AND not awaiting confirmation
+        if not is_paused and not awaiting_confirmation:
+            # helps run the same on every computer
+            # add time since last tick() to fall_time
+            fall_time += clock.get_rawtime()  # returns in milliseconds
+            level_time += clock.get_rawtime()
 
-        clock.tick()  # updates clock
+            clock.tick()  # updates clock
 
-        if level_time/1000 > 5:    # make the difficulty harder every 10 seconds
-            level_time = 0
-            if fall_speed > 0.15:   # until fall speed is 0.15
-                fall_speed -= 0.005
+            if level_time/1000 > 5:    # make the difficulty harder every 10 seconds
+                level_time = 0
+                if fall_speed > 0.15:   # until fall speed is 0.15
+                    fall_speed -= 0.005
 
-        if fall_time / 1000 > fall_speed:
-            fall_time = 0
-            current_piece.y += 1
-            if not valid_space(current_piece, grid) and current_piece.y > 0:
-                current_piece.y -= 1
-                # since only checking for down - either reached bottom or hit another piece
-                # need to lock the piece position
-                # need to generate new piece
-                change_piece = True
+            if fall_time / 1000 > fall_speed:
+                fall_time = 0
+                current_piece.y += 1
+                if not valid_space(current_piece, grid) and current_piece.y > 0:
+                    current_piece.y -= 1
+                    # since only checking for down - either reached bottom or hit another piece
+                    # need to lock the piece position
+                    # need to generate new piece
+                    change_piece = True
+        else:
+            # Still tick the clock when paused, but don't update game state
+            clock.tick()
+
         try:
             while not command_queue.empty():
                 command = command_queue.get_nowait()
-                print(f"Command from Kafka: {command}")
                 
-                if command == "left":
-                    current_piece.x -= 1
-                    if not valid_space(current_piece, grid):
-                        current_piece.x += 1
+                # Handle confirmation flow
+                if pending_command:
+                    if command in confirmed_commands:
+                        if command == "yes":
+                            print(f"Confirmed command: {pending_command}")
+                            # Execute the confirmed command
+                            if pending_command == "pause":
+                                is_paused = not is_paused
+                                print(f"Game {'paused' if is_paused else 'resumed'}")
+                            elif pending_command == "speed":
+                                # Increase game speed by reducing fall_speed
+                                fall_speed = max(0.1, fall_speed - 0.1)
+                                print(f"Speed increased - fall_speed now: {fall_speed}")
+                        elif command == "no":
+                            print(f"Rejected command: {pending_command}")
                         
-                elif command == "right":
-                    current_piece.x += 1
-                    if not valid_space(current_piece, grid):
+                        # Clear pending command and awaiting flag
+                        pending_command = None
+                        awaiting_confirmation = False
+                    # When there's a pending command, ignore all non-confirmation commands
+                    continue
+                
+                # Process new commands
+                if command in commands_requiring_confirmation:
+                    pending_command = command
+                    pending_command_time = time.time()
+                    awaiting_confirmation = True  # Set awaiting confirmation state
+                    print(f"Command '{command}' requires confirmation. Say 'yes' to confirm or 'no' to cancel.")
+                elif command in confirmed_commands:
+                    # Ignore confirmation commands when nothing is pending
+                    print(f"No command waiting for confirmation")
+                elif not is_paused and not awaiting_confirmation:  # Only process movement commands if game active
+                    # Process regular commands only when not paused and not awaiting confirmation
+                    if command == "left":
                         current_piece.x -= 1
+                        if not valid_space(current_piece, grid):
+                            current_piece.x += 1
+                            
+                    elif command == "right":
+                        current_piece.x += 1
+                        if not valid_space(current_piece, grid):
+                            current_piece.x -= 1
+                            
+                    elif command == "down":
+                        current_piece.y += 1
+                        if not valid_space(current_piece, grid):
+                            current_piece.y -= 1
+                            
+                    elif command == "rotation_right":
+                        current_piece.rotation = (current_piece.rotation + 1) % len(current_piece.shape)
+                        if not valid_space(current_piece, grid):
+                            current_piece.rotation = (current_piece.rotation - 1) % len(current_piece.shape)
+                            
+                    elif command == "rotation_left":
+                        current_piece.rotation = (current_piece.rotation - 1) % len(current_piece.shape)
+                        if not valid_space(current_piece, grid):
+                            current_piece.rotation = (current_piece.rotation + 1) % len(current_piece.shape)
+                            
+                    elif command == "quit":
+                        run = False
                         
-                elif command == "down":
-                    current_piece.y += 1
-                    if not valid_space(current_piece, grid):
-                        current_piece.y -= 1
-                        
-                elif command == "up":
-                    current_piece.rotation = current_piece.rotation + 1 % len(current_piece.shape)
-                    if not valid_space(current_piece, grid):
-                        current_piece.rotation = current_piece.rotation - 1 % len(current_piece.shape)
-                        
-                elif command == "quit":
-                    run = False
-                    
         except Exception as e:
             print(f"Error processing command: {e}")
             
@@ -540,16 +634,17 @@ def main(window):
     draw_text_middle('You Lost', 40, (255, 255, 255), window)
     pygame.display.update()
     pygame.time.delay(2000)  # wait for 2 seconds
-    pygame.quit()
+    if check_lost(locked_positions):
+        run = False
+
+    draw_text_middle('You Lost', 40, (255, 255, 255), window)
+    pygame.display.update()
+    pygame.time.delay(2000)
 
 
 def main_menu(window):
-    global voice_command
     run = True
 
-    # Start the voice thread only once
-    voice_thread = threading.Thread(target=voice_listener_loop, daemon=True)
-    voice_thread.start()
     while run:
         draw_text_middle('Press any key to begin', 50, (255, 255, 255), window)
         pygame.display.update()
@@ -557,8 +652,9 @@ def main_menu(window):
             if event.type == pygame.QUIT:
                 run = False
             elif event.type == pygame.KEYDOWN:
-                main(window)
-
+                main(window)  # After this returns, continue showing the menu
+    
+    # Only quit pygame when exiting the application
     pygame.quit()
 
 command_queue = queue.Queue()
@@ -585,37 +681,6 @@ def kafka_consumer_thread():
         print(f"Kafka consumer error: {e}")
     finally:
         print("Kafka consumer stopped")
-
-def record_and_predict_command():
-    command_labels = ["rotation_left", "rotation_right", "move_left", "move_right", "down", "yes","no","pause","speed"]
-
-    # Step 1: Record the audio
-    print("Recording audio...")
-    voice_model.record_audio("voiceModel/test.wav", duration=2)  # Record the audio clip (2 seconds)
-
-    # Step 2: Load model
-    model = voice_model.VoiceCommandRecognizer()
-    model.load_state_dict(torch.load("voiceModel/voice_model.pth", map_location="cpu"))
-
-    # Step 3: Predict command
-    print("Predicting command...")
-    predicted_index = voice_model.predict_command(model, "voiceModel/test.wav")
-    predicted_command = command_labels[predicted_index]
-
-    print(f"\n🧠 Predicted Command: **{predicted_command}**")
-
-    # Step 4: Add the predicted command to the queue
-    command_queue.put(predicted_command)  # Put the predicted command into the queue
-    print(f"Predicted command added to the queue: {predicted_command}")
-    return predicted_command
-
-def voice_listener_loop():
-    global voice_command
-    while True:
-        try:
-            record_and_predict_command()
-        except Exception as e:
-            print(f"[Voice Thread] Error: {e}")
 
 if __name__ == '__main__':
     win = pygame.display.set_mode((s_width, s_height))

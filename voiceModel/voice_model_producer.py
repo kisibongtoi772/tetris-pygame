@@ -12,7 +12,7 @@ import signal
 class VoiceRecognizer:
     def __init__(self, kafka_producer=None):
         self.kakfa_producer = kafka_producer or TetrisKafkaProducer.get_instance()
-        self.command_labels = ["rotation_left", "rotation_right", "move_left", "move_right", "down"]
+        self.command_labels = ["rotation_left", "rotation_right", "move_left", "move_right", "down", "yes", "no", "pause", "speed"]
         self.model = None
         self.running = True
         self.model_loaded = False
