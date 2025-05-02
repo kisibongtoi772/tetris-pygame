@@ -4,10 +4,24 @@ import time
 import logging
 
 class TetrisKafkaProducer:
-    """A reusable Kafka producer for Tetris game commands"""
+    """A singleton Kafka producer for Tetris game commands that can be shared across services"""
+    
+    # Class-level shared instance
+    _instance = None
+    
+    @classmethod
+    def get_instance(cls, bootstrap_servers=['localhost:9092'], topic='tetris-commands'):
+        """Get or create the shared Kafka producer instance"""
+        if cls._instance is None:
+            cls._instance = cls(bootstrap_servers, topic)
+        return cls._instance
     
     def __init__(self, bootstrap_servers=['localhost:9092'], topic='tetris-commands'):
         """Initialize the Kafka producer with specified servers and topic"""
+        # Prevent multiple instances if directly instantiated
+        if TetrisKafkaProducer._instance is not None:
+            raise Exception("This class is a singleton! Use get_instance() instead.")
+            
         self.topic = topic
         self.connected = False
         self.logger = logging.getLogger(__name__)
