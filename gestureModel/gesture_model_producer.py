@@ -178,8 +178,8 @@ def main():
                 # Example of pressing keys with pyautogui based on other recognized gestures
                 if recognized_gesture == "Open_Palm":
                     printed_gesture = recognized_gesture
-                    print("open_palm")
-                    pyautogui.press("up")
+                    #print("pause")
+                    kafka_producer.send_command("pause")
                 elif recognized_gesture == "Thumb_Up":
                     printed_gesture = recognized_gesture
                     #print("thumb down")

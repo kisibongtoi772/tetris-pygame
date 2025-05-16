@@ -4,6 +4,7 @@ import time
 from queue import Queue
 import os
 import sys
+import keyboard
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -40,18 +41,38 @@ class VoiceRecognizer:
         except Exception as e:
             print(f"Error predicting voice command: {e}")
             return None
-    
+
     def voice_listener_loop(self):
+        # Load the model only once at startup
+        self.load_model()
+
+        print("Voice recognition started - hold Alt to issue voice commands...")
+        while self.running:
+            if keyboard.is_pressed('alt'):
+                print("Alt key held - starting voice recognition...")
+                while keyboard.is_pressed('alt') and self.running:
+                    try:
+                        command = self.predict_command()
+                        if command:
+                            self.kakfa_producer.send_command(command)
+                            print(f"Voice command added to queue: {command}")
+                        time.sleep(0.5)  # Reduce CPU usage
+                    except Exception as e:
+                        print(f"[Voice Thread - Alt Held] Error: {e}")
+                        time.sleep(1)
+            else:
+                time.sleep(0.1)  # Brief pause before checking Alt again
+
+
+    def voice_listener_loop2(self):
         # Load the model only once at startup
         self.load_model()
         
         print("Voice recognition started - listening for commands...")
-        
         while self.running:
             try:
                 command = self.predict_command()
                 if command:
-
                     self.kakfa_producer.send_command(command)
                     print(f"Voice command added to queue: {command}")
                 # Add a small delay to prevent CPU overuse

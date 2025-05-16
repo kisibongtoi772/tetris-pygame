@@ -25,7 +25,7 @@ class VoiceCommandRecognizer(nn.Module):
         self.fc_input_size = sample_output.numel()
 
         self.fc1 = nn.Linear(self.fc_input_size, 128)
-        self.fc2 = nn.Linear(128, 9)
+        self.fc2 = nn.Linear(128, 10)
 
     def forward_feature_extractor(self, x):
         x = self.conv1(x)
@@ -104,7 +104,7 @@ def predict_command(model, audio_path):
 # 5. Main testing logic
 # -----------------------------
 if __name__ == "__main__":
-    command_labels = ["rotation_left", "rotation_right", "move_left", "move_right", "down","yes","no","pause","speed"]
+    command_labels = ["rotation_left", "rotation_right", "move_left", "move_right", "down","yes","no","pause","speed","nothing"]
 
     # Step 1: Record voice
     record_audio("test.wav", duration=2)
