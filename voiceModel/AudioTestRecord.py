@@ -42,7 +42,7 @@ def record_audio(output_file):
     wf.close()
 
 # Loop to record more files without overwriting old ones
-commands = ["rotation_left", "rotation_right", "move_left", "move_right", "down"]
+commands = ["left","no" , "pause", "right", "speed" ,"yes"]
 start_index = 25  # Start numbering
 end_index = 36    # Ending number
 

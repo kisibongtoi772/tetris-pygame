@@ -24,7 +24,7 @@ class VoiceCommandRecognizer(nn.Module):
         self.fc_input_size = sample_output.numel()  # Get the number of elements
 
         self.fc1 = nn.Linear(self.fc_input_size, 128)
-        self.fc2 = nn.Linear(128, 10)
+        self.fc2 = nn.Linear(128, 6)
 
     def forward_feature_extractor(self, x):
         """ Extract features without flattening for size calculation. """
@@ -71,7 +71,7 @@ class VoiceCommandDataset(Dataset):
 
 # Define the commands
 vr = VoiceRecognizer()  # create object
-commands = vr.command_labels  # ["rotation_left", "rotation_right", "move_left", "move_right", "down", "yes", "no", "pause", "speed"]
+commands = vr.command_labels  # ["left","no" , "pause", "right", "speed" ,"yes"]
 # Generate the files
 files = []
 labels = []

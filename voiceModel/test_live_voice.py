@@ -104,7 +104,7 @@ def predict_command(model, audio_path):
 # 5. Main testing logic
 # -----------------------------
 if __name__ == "__main__":
-    command_labels = ["rotation_left", "rotation_right", "move_left", "move_right", "down","yes","no","pause","speed","nothing"]
+    command_labels = ["left","no" , "pause", "right", "speed" ,"yes"]
 
     # Step 1: Record voice
     record_audio("test.wav", duration=2)

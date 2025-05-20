@@ -25,7 +25,7 @@ class VoiceCommandRecognizer(nn.Module):
         self.fc_input_size = sample_output.numel()
 
         self.fc1 = nn.Linear(self.fc_input_size, 128)
-        self.fc2 = nn.Linear(128, 10)
+        self.fc2 = nn.Linear(128, 6)
 
     def forward_feature_extractor(self, x):
         x = self.conv1(x)
