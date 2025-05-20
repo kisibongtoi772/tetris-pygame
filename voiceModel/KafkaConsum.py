@@ -9,11 +9,7 @@ consumer = KafkaConsumer('voice-commands',
 
 for message in consumer:
     command = message.value['command']
-    if command == 'move_left':
-        tetris_game.move_left()
-    elif command == 'move_right':
-        tetris_game.move_right()
-    elif command == 'rotate':
+    if command == 'left':
         tetris_game.rotate()
-    elif command == 'drop':
-        tetris_game.drop()
+    elif command == 'right':
+        tetris_game.rotate()

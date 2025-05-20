@@ -5,6 +5,7 @@ import librosa
 import numpy as np
 from torch.utils.data import Dataset, DataLoader
 import os
+from voiceModel.voice_model_producer import VoiceRecognizer
 
 
 # Define the neural network model

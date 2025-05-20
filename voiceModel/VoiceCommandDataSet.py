@@ -2,7 +2,7 @@ from torch.utils.data import Dataset, DataLoader
 from VoiceCommandRec import VoiceCommandRecognizer
 from LoadSpect import load_spectrogram
 import torch
-import nn
+import torch.nn as nn
 
 class VoiceCommandDataset(Dataset):
     def __init__(self, files, labels):
@@ -17,7 +17,7 @@ class VoiceCommandDataset(Dataset):
         y = self.labels[index]
         return x, y
 
-files = ['move_left.wav', 'move_right.wav', 'rotate.wav', 'drop.wav']
+files = ['left','right','yes','no','pause','speed']
 labels = [0, 1, 2, 3]
 dataset = VoiceCommandDataset(files, labels)
 dataloader = DataLoader(dataset, batch_size=4, shuffle=True)

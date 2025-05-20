@@ -2,10 +2,11 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import librosa
-import numpy as np
 import pyaudio
 import wave
-import os
+import numpy as np
+import noisereduce as nr
+from scipy.io import wavfile
 
 # -----------------------------
 # 1. Define your model class
@@ -47,12 +48,7 @@ class VoiceCommandRecognizer(nn.Module):
 # -----------------------------
 # 2. Function to record audio
 # -----------------------------
-def record_audio(output_file="test.wav", duration=2):
-    # Check if the file exists and delete it to ensure fresh recording each time
-    if os.path.exists(output_file):
-        print(f"Deleting previous file: {output_file}")
-        os.remove(output_file)  # This deletes the old file before recording
-
+def record_audio_without(output_file="test.wav", duration=2):
     chunk = 1024
     sample_format = pyaudio.paInt16
     channels = 1
@@ -82,6 +78,49 @@ def record_audio(output_file="test.wav", duration=2):
     wf.setframerate(fs)
     wf.writeframes(b''.join(frames))
     wf.close()
+    
+def record_audio(output_file="test.wav", duration=2):
+    chunk = 1024
+    sample_format = pyaudio.paInt16
+    channels = 1
+    fs = 44100  # Sampling rate
+
+    p = pyaudio.PyAudio()
+    stream = p.open(format=sample_format,
+                    channels=channels,
+                    rate=fs,
+                    frames_per_buffer=chunk,
+                    input=True)
+
+    print("Recording... Speak now!")
+    frames = []
+
+    for _ in range(0, int(fs / chunk * duration)):
+        data = stream.read(chunk)
+        frames.append(data)
+
+    print("Finished recording.")
+    stream.stop_stream()
+    stream.close()
+    p.terminate()
+
+    # Save raw audio to temp file first
+    temp_raw_file = "temp_raw.wav"
+    wf = wave.open(temp_raw_file, 'wb')
+    wf.setnchannels(channels)
+    wf.setsampwidth(p.get_sample_size(sample_format))
+    wf.setframerate(fs)
+    wf.writeframes(b''.join(frames))
+    wf.close()
+
+    # Apply noise reduction
+    rate, data = wavfile.read(temp_raw_file)
+    data = data.astype(np.float32)
+    reduced_noise = nr.reduce_noise(y=data, sr=rate)
+
+    # Save the cleaned audio
+    reduced_noise = reduced_noise.astype(np.int16)
+    wavfile.write(output_file, rate, reduced_noise)
 
 # -----------------------------
 # 3. Load spectrogram from file
