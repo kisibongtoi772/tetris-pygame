@@ -5,6 +5,7 @@ import librosa
 import pyaudio
 import wave
 import numpy as np
+import os
 import noisereduce as nr
 from scipy.io import wavfile
 
@@ -78,7 +79,7 @@ def record_audio_without(output_file="test.wav", duration=2):
     wf.setframerate(fs)
     wf.writeframes(b''.join(frames))
     wf.close()
-    
+
 def record_audio(output_file="test.wav", duration=2):
     chunk = 1024
     sample_format = pyaudio.paInt16
@@ -121,6 +122,67 @@ def record_audio(output_file="test.wav", duration=2):
     # Save the cleaned audio
     reduced_noise = reduced_noise.astype(np.int16)
     wavfile.write(output_file, rate, reduced_noise)
+
+def record_audio2(output_file="test.wav", duration=2):
+    chunk = 1024
+    sample_format = pyaudio.paInt16
+    channels = 1
+    fs = 44100  # Sampling rate
+
+    p = pyaudio.PyAudio()
+    stream = p.open(format=sample_format,
+                    channels=channels,
+                    rate=fs,
+                    frames_per_buffer=chunk,
+                    input=True)
+
+    print("Recording... Speak now!")
+    frames = []
+
+    for _ in range(0, int(fs / chunk * duration)):
+        data = stream.read(chunk)
+        frames.append(data)
+
+    print("Finished recording.")
+    stream.stop_stream()
+    stream.close()
+    p.terminate()
+
+    # Save raw audio to temp file
+    temp_raw_file = "temp_raw.wav"
+    wf = wave.open(temp_raw_file, 'wb')
+    wf.setnchannels(channels)
+    wf.setsampwidth(p.get_sample_size(sample_format))
+    wf.setframerate(fs)
+    wf.writeframes(b''.join(frames))
+    wf.close()
+
+    # Read raw WAV and reduce noise
+    rate, data = wavfile.read(temp_raw_file)
+
+    # Convert to float32 for processing
+    data = data.astype(np.float32)
+
+    # Use first 0.25 seconds as noise profile (adjust as needed)
+    noise_clip = data[:int(0.25 * rate)]
+
+    # Apply aggressive noise reduction
+    reduced_noise = nr.reduce_noise(
+        y=data,
+        sr=rate,
+        y_noise=noise_clip,   # explicitly provide noise profile
+        prop_decrease=1.0,    # maximum noise reduction
+        stationary=True       # assume constant background noise
+    )
+
+    # Save cleaned audio
+    reduced_noise = np.clip(reduced_noise, -32768, 32767).astype(np.int16)
+    wavfile.write(output_file, rate, reduced_noise)
+
+    print(f"Cleaned audio saved to: {output_file}")
+
+    # Clean up temp file
+    os.remove(temp_raw_file)
 
 # -----------------------------
 # 3. Load spectrogram from file

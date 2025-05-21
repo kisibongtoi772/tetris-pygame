@@ -5,16 +5,298 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f2871c93-838a-452c-86a2-8077042df316" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/voiceModel/KafkaConsum.py" beforeDir="false" afterPath="$PROJECT_DIR$/voiceModel/KafkaConsum.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/voiceModel/VoiceCommandDataSet.py" beforeDir="false" afterPath="$PROJECT_DIR$/voiceModel/VoiceCommandDataSet.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/voiceModel/test_live_voice.py" beforeDir="false" afterPath="$PROJECT_DIR$/voiceModel/test_live_voice.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/left_1.wav" beforeDir="false" afterPath="$PROJECT_DIR$/voiceModel/AudioFiles/left_1.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/left_10.wav" beforeDir="false" afterPath="$PROJECT_DIR$/voiceModel/AudioFiles/left_10.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/left_11.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/left_12.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/left_13.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/left_14.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/left_15.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/left_16.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/left_17.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/left_18.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/left_19.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/left_2.wav" beforeDir="false" afterPath="$PROJECT_DIR$/voiceModel/AudioFiles/left_2.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/left_20.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/left_21.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/left_22.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/left_23.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/left_24.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/left_25.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/left_26.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/left_27.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/left_28.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/left_29.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/left_3.wav" beforeDir="false" afterPath="$PROJECT_DIR$/voiceModel/AudioFiles/left_3.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/left_30.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/left_31.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/left_32.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/left_33.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/left_34.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/left_35.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/left_36.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/left_37.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/left_38.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/left_39.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/left_4.wav" beforeDir="false" afterPath="$PROJECT_DIR$/voiceModel/AudioFiles/left_4.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/left_40.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/left_41.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/left_42.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/left_43.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/left_44.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/left_45.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/left_46.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/left_47.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/left_48.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/left_5.wav" beforeDir="false" afterPath="$PROJECT_DIR$/voiceModel/AudioFiles/left_5.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/left_6.wav" beforeDir="false" afterPath="$PROJECT_DIR$/voiceModel/AudioFiles/left_6.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/left_7.wav" beforeDir="false" afterPath="$PROJECT_DIR$/voiceModel/AudioFiles/left_7.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/left_8.wav" beforeDir="false" afterPath="$PROJECT_DIR$/voiceModel/AudioFiles/left_8.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/left_9.wav" beforeDir="false" afterPath="$PROJECT_DIR$/voiceModel/AudioFiles/left_9.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/no_1.wav" beforeDir="false" afterPath="$PROJECT_DIR$/voiceModel/AudioFiles/no_1.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/no_10.wav" beforeDir="false" afterPath="$PROJECT_DIR$/voiceModel/AudioFiles/no_10.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/no_11.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/no_12.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/no_13.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/no_14.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/no_15.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/no_16.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/no_17.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/no_18.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/no_19.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/no_2.wav" beforeDir="false" afterPath="$PROJECT_DIR$/voiceModel/AudioFiles/no_2.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/no_20.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/no_21.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/no_22.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/no_23.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/no_24.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/no_25.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/no_26.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/no_27.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/no_28.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/no_29.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/no_3.wav" beforeDir="false" afterPath="$PROJECT_DIR$/voiceModel/AudioFiles/no_3.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/no_30.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/no_31.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/no_32.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/no_33.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/no_34.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/no_35.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/no_36.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/no_37.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/no_38.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/no_39.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/no_4.wav" beforeDir="false" afterPath="$PROJECT_DIR$/voiceModel/AudioFiles/no_4.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/no_40.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/no_41.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/no_42.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/no_43.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/no_44.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/no_45.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/no_46.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/no_47.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/no_48.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/no_5.wav" beforeDir="false" afterPath="$PROJECT_DIR$/voiceModel/AudioFiles/no_5.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/no_6.wav" beforeDir="false" afterPath="$PROJECT_DIR$/voiceModel/AudioFiles/no_6.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/no_7.wav" beforeDir="false" afterPath="$PROJECT_DIR$/voiceModel/AudioFiles/no_7.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/no_8.wav" beforeDir="false" afterPath="$PROJECT_DIR$/voiceModel/AudioFiles/no_8.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/no_9.wav" beforeDir="false" afterPath="$PROJECT_DIR$/voiceModel/AudioFiles/no_9.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/pause_1.wav" beforeDir="false" afterPath="$PROJECT_DIR$/voiceModel/AudioFiles/pause_1.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/pause_10.wav" beforeDir="false" afterPath="$PROJECT_DIR$/voiceModel/AudioFiles/pause_10.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/pause_11.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/pause_12.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/pause_13.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/pause_14.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/pause_15.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/pause_16.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/pause_17.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/pause_18.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/pause_19.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/pause_2.wav" beforeDir="false" afterPath="$PROJECT_DIR$/voiceModel/AudioFiles/pause_2.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/pause_20.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/pause_21.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/pause_22.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/pause_23.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/pause_24.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/pause_25.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/pause_26.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/pause_27.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/pause_28.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/pause_29.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/pause_3.wav" beforeDir="false" afterPath="$PROJECT_DIR$/voiceModel/AudioFiles/pause_3.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/pause_30.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/pause_31.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/pause_32.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/pause_33.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/pause_34.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/pause_35.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/pause_36.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/pause_37.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/pause_38.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/pause_39.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/pause_4.wav" beforeDir="false" afterPath="$PROJECT_DIR$/voiceModel/AudioFiles/pause_4.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/pause_40.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/pause_41.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/pause_42.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/pause_43.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/pause_44.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/pause_45.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/pause_46.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/pause_47.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/pause_48.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/pause_5.wav" beforeDir="false" afterPath="$PROJECT_DIR$/voiceModel/AudioFiles/pause_5.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/pause_6.wav" beforeDir="false" afterPath="$PROJECT_DIR$/voiceModel/AudioFiles/pause_6.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/pause_7.wav" beforeDir="false" afterPath="$PROJECT_DIR$/voiceModel/AudioFiles/pause_7.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/pause_8.wav" beforeDir="false" afterPath="$PROJECT_DIR$/voiceModel/AudioFiles/pause_8.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/pause_9.wav" beforeDir="false" afterPath="$PROJECT_DIR$/voiceModel/AudioFiles/pause_9.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/right_1.wav" beforeDir="false" afterPath="$PROJECT_DIR$/voiceModel/AudioFiles/right_1.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/right_10.wav" beforeDir="false" afterPath="$PROJECT_DIR$/voiceModel/AudioFiles/right_10.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/right_11.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/right_12.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/right_13.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/right_14.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/right_15.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/right_16.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/right_17.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/right_18.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/right_19.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/right_2.wav" beforeDir="false" afterPath="$PROJECT_DIR$/voiceModel/AudioFiles/right_2.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/right_20.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/right_21.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/right_22.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/right_23.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/right_24.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/right_25.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/right_26.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/right_27.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/right_28.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/right_29.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/right_3.wav" beforeDir="false" afterPath="$PROJECT_DIR$/voiceModel/AudioFiles/right_3.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/right_30.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/right_31.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/right_32.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/right_33.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/right_34.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/right_35.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/right_36.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/right_37.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/right_38.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/right_39.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/right_4.wav" beforeDir="false" afterPath="$PROJECT_DIR$/voiceModel/AudioFiles/right_4.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/right_40.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/right_41.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/right_42.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/right_43.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/right_44.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/right_45.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/right_46.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/right_47.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/right_48.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/right_5.wav" beforeDir="false" afterPath="$PROJECT_DIR$/voiceModel/AudioFiles/right_5.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/right_6.wav" beforeDir="false" afterPath="$PROJECT_DIR$/voiceModel/AudioFiles/right_6.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/right_7.wav" beforeDir="false" afterPath="$PROJECT_DIR$/voiceModel/AudioFiles/right_7.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/right_8.wav" beforeDir="false" afterPath="$PROJECT_DIR$/voiceModel/AudioFiles/right_8.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/right_9.wav" beforeDir="false" afterPath="$PROJECT_DIR$/voiceModel/AudioFiles/right_9.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/speed_1.wav" beforeDir="false" afterPath="$PROJECT_DIR$/voiceModel/AudioFiles/speed_1.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/speed_10.wav" beforeDir="false" afterPath="$PROJECT_DIR$/voiceModel/AudioFiles/speed_10.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/speed_11.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/speed_12.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/speed_13.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/speed_14.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/speed_15.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/speed_16.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/speed_17.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/speed_18.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/speed_19.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/speed_2.wav" beforeDir="false" afterPath="$PROJECT_DIR$/voiceModel/AudioFiles/speed_2.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/speed_20.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/speed_21.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/speed_22.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/speed_23.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/speed_24.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/speed_25.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/speed_26.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/speed_27.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/speed_28.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/speed_29.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/speed_3.wav" beforeDir="false" afterPath="$PROJECT_DIR$/voiceModel/AudioFiles/speed_3.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/speed_30.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/speed_31.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/speed_32.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/speed_33.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/speed_34.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/speed_35.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/speed_36.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/speed_37.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/speed_38.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/speed_39.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/speed_4.wav" beforeDir="false" afterPath="$PROJECT_DIR$/voiceModel/AudioFiles/speed_4.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/speed_40.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/speed_41.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/speed_42.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/speed_43.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/speed_44.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/speed_45.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/speed_46.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/speed_47.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/speed_48.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/speed_5.wav" beforeDir="false" afterPath="$PROJECT_DIR$/voiceModel/AudioFiles/speed_5.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/speed_6.wav" beforeDir="false" afterPath="$PROJECT_DIR$/voiceModel/AudioFiles/speed_6.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/speed_7.wav" beforeDir="false" afterPath="$PROJECT_DIR$/voiceModel/AudioFiles/speed_7.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/speed_8.wav" beforeDir="false" afterPath="$PROJECT_DIR$/voiceModel/AudioFiles/speed_8.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/speed_9.wav" beforeDir="false" afterPath="$PROJECT_DIR$/voiceModel/AudioFiles/speed_9.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/yes_1.wav" beforeDir="false" afterPath="$PROJECT_DIR$/voiceModel/AudioFiles/yes_1.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/yes_10.wav" beforeDir="false" afterPath="$PROJECT_DIR$/voiceModel/AudioFiles/yes_10.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/yes_11.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/yes_12.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/yes_13.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/yes_14.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/yes_15.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/yes_16.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/yes_17.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/yes_18.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/yes_19.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/yes_2.wav" beforeDir="false" afterPath="$PROJECT_DIR$/voiceModel/AudioFiles/yes_2.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/yes_20.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/yes_21.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/yes_22.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/yes_23.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/yes_24.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/yes_25.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/yes_26.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/yes_27.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/yes_28.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/yes_29.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/yes_3.wav" beforeDir="false" afterPath="$PROJECT_DIR$/voiceModel/AudioFiles/yes_3.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/yes_30.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/yes_31.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/yes_32.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/yes_33.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/yes_34.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/yes_35.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/yes_36.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/yes_37.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/yes_38.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/yes_39.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/yes_4.wav" beforeDir="false" afterPath="$PROJECT_DIR$/voiceModel/AudioFiles/yes_4.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/yes_40.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/yes_41.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/yes_42.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/yes_43.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/yes_44.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/yes_45.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/yes_46.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/yes_47.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/yes_48.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/yes_5.wav" beforeDir="false" afterPath="$PROJECT_DIR$/voiceModel/AudioFiles/yes_5.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/yes_6.wav" beforeDir="false" afterPath="$PROJECT_DIR$/voiceModel/AudioFiles/yes_6.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/yes_7.wav" beforeDir="false" afterPath="$PROJECT_DIR$/voiceModel/AudioFiles/yes_7.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/yes_8.wav" beforeDir="false" afterPath="$PROJECT_DIR$/voiceModel/AudioFiles/yes_8.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/AudioFiles/yes_9.wav" beforeDir="false" afterPath="$PROJECT_DIR$/voiceModel/AudioFiles/yes_9.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/voice_model.pth" beforeDir="false" afterPath="$PROJECT_DIR$/voiceModel/voice_model.pth" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/voiceModel/voice_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/voiceModel/voice_model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/voiceModel/voice_model_train.py" beforeDir="false" afterPath="$PROJECT_DIR$/voiceModel/voice_model_train.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voiceModel/voice_model_producer.py" beforeDir="false" afterPath="$PROJECT_DIR$/voiceModel/voice_model_producer.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,16 +327,20 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;Python tests.pytest in test_live_voice.py.executor&quot;: &quot;Run&quot;,
+    &quot;Python.KafkaConsum.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.KafkaProd.executor&quot;: &quot;Run&quot;,
     &quot;Python.Tetris.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Thread.executor&quot;: &quot;Run&quot;,
     &quot;Python.Threading.executor&quot;: &quot;Debug&quot;,
     &quot;Python.gesture_model_producer.executor&quot;: &quot;Run&quot;,
     &quot;Python.voice_model.executor&quot;: &quot;Run&quot;,
     &quot;Python.voice_model_producer.executor&quot;: &quot;Run&quot;,
+    &quot;Python.voice_model_train.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Python Programs&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Uni/FS2025/MMI - Multimodal Interfaces/Python Programs&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -124,7 +410,9 @@
       <workItem from="1747405858543" duration="6424000" />
       <workItem from="1747471949187" duration="1222000" />
       <workItem from="1747757850413" duration="1985000" />
-      <workItem from="1747759962840" duration="5926000" />
+      <workItem from="1747759962840" duration="9972000" />
+      <workItem from="1747840675175" duration="7422000" />
+      <workItem from="1747860357148" duration="348000" />
     </task>
     <servers />
   </component>
@@ -135,19 +423,44 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/voiceModel/KafkaConsum.py</url>
+          <line>11</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/voiceModel/KafkaProd.py</url>
-          <option name="timeStamp" value="3" />
+          <line>7</line>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/voiceModel/Thread.py</url>
+          <line>70</line>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/voiceModel/Thread.py</url>
+          <line>25</line>
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/voiceModel/Thread.py</url>
+          <line>25</line>
+          <option name="timeStamp" value="11" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/tetris_pygame$Tetris.coverage" NAME="Tetris Coverage Results" MODIFIED="1747764292730" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/tetris_pygame$KafkaConsum.coverage" NAME="KafkaConsum Coverage Results" MODIFIED="1747768755726" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/voiceModel" />
+    <SUITE FILE_PATH="coverage/tetris_pygame$Tetris.coverage" NAME="Tetris Coverage Results" MODIFIED="1747847748133" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/tetris_pygame$Thread.coverage" NAME="Thread Coverage Results" MODIFIED="1747844916249" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/voiceModel" />
     <SUITE FILE_PATH="coverage/TetrisCode$Tetris.coverage" NAME="Tetris Coverage Results" MODIFIED="1743088315045" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/tetris_pygame$voice_model_producer.coverage" NAME="voice_model_producer Coverage Results" MODIFIED="1747764128110" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/voiceModel" />
-    <SUITE FILE_PATH="coverage/tetris_pygame$gesture_model_producer.coverage" NAME="gesture_model_producer Coverage Results" MODIFIED="1747761168797" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/gestureModel" />
+    <SUITE FILE_PATH="coverage/tetris_pygame$KafkaProd.coverage" NAME="KafkaProd Coverage Results" MODIFIED="1747768887690" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/voiceModel" />
+    <SUITE FILE_PATH="coverage/tetris_pygame$voice_model_producer.coverage" NAME="voice_model_producer Coverage Results" MODIFIED="1747847767606" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/voiceModel" />
+    <SUITE FILE_PATH="coverage/tetris_pygame$gesture_model_producer.coverage" NAME="gesture_model_producer Coverage Results" MODIFIED="1747847089906" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/gestureModel" />
     <SUITE FILE_PATH="coverage/TetrisCode$Threading.coverage" NAME="Threading Coverage Results" MODIFIED="1743087870056" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/tetris_pygame$voice_model.coverage" NAME="voice_model Coverage Results" MODIFIED="1746212761147" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/voiceModel" />
+    <SUITE FILE_PATH="coverage/tetris_pygame$voice_model.coverage" NAME="voice_model Coverage Results" MODIFIED="1747841263062" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/voiceModel" />
     <SUITE FILE_PATH="coverage/tetris_pygame$pytest_in_test_live_voice_py.coverage" NAME="pytest in test_live_voice.py Coverage Results" MODIFIED="1747762532034" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/voiceModel" />
+    <SUITE FILE_PATH="coverage/tetris_pygame$voice_model_train.coverage" NAME="voice_model_train Coverage Results" MODIFIED="1747768906981" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/voiceModel" />
   </component>
 </project>

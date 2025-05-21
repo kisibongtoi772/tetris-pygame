@@ -1,3 +1,5 @@
+from contextlib import nullcontext
+
 import voice_model
 import torch
 import time
@@ -24,7 +26,7 @@ class VoiceRecognizer:
         self.model.load_state_dict(torch.load("voice_model.pth", map_location="cpu"))
         self.model_loaded = True
         print("Voice model loaded successfully!")
-        
+
     def predict_command(self):
         if not self.model_loaded:
             self.load_model()
@@ -33,8 +35,13 @@ class VoiceRecognizer:
             voice_model.record_audio("test.wav", duration=2)
 
             # Predict command
-            predicted_index = voice_model.predict_command(self.model, "test.wav")
+            predicted_index= voice_model.predict_command(self.model, "test.wav")
             predicted_command = self.command_labels[predicted_index]
+            #reconvertion after using a short form
+            if predicted_command == 'left':
+                return "rotation_left"
+            elif predicted_command == 'right':
+                return "rotation_right"
 
             print(f"\n🧠 Predicted Command: **{predicted_command}**")
             return predicted_command
@@ -64,7 +71,7 @@ class VoiceRecognizer:
                 time.sleep(0.1)  # Brief pause before checking Alt again
 
 
-    def voice_listener_loop2(self):
+    def voice_listener_loop_running(self):
         # Load the model only once at startup
         self.load_model()
         
