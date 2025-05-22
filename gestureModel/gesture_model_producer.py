@@ -2,7 +2,6 @@ import cv2
 import mediapipe as mp
 from mediapipe.tasks.python.vision import GestureRecognizer, GestureRecognizerOptions
 from mediapipe.tasks.python import BaseOptions
-import pyautogui
 import os
 import sys
 
@@ -150,17 +149,14 @@ def main():
                         if can_send_command:
                             print(f"Pointing Direction: {pointing_direction}")
                             if pointing_direction == "Pointing Right":
-                                # pyautogui.press("right")
                                 kafka_producer.send_command("right")
                                 last_command_time = current_time
 
                             if pointing_direction == "Pointing Left":
-                                # pyautogui.press("left")
                                 kafka_producer.send_command("left")
                                 last_command_time = current_time
 
                             if pointing_direction == "Pointing Up":
-                                # pyautogui.press("up")
                                 kafka_producer.send_command("speed")
                                 last_command_time = current_time
 
@@ -168,32 +164,21 @@ def main():
                                 kafka_producer.send_command("down")
                                 last_command_time = current_time
                             
-                                # pyautogui.press("down")
-                            
-                            
                         # Draw hand landmarks
                         mp_drawing.draw_landmarks(image, hand_landmarks, mp_hands.HAND_CONNECTIONS)
                         printed_gesture = pointing_direction
 
-                # Example of pressing keys with pyautogui based on other recognized gestures
+                # Other recognized gestures
                 if recognized_gesture == "Open_Palm":
                     printed_gesture = recognized_gesture
-                    #print("pause")
                     kafka_producer.send_command("pause")
                 elif recognized_gesture == "Thumb_Up":
                     printed_gesture = recognized_gesture
-                    #print("thumb down")
                     kafka_producer.send_command("yes")
                 elif recognized_gesture == "Thumb_Down":
                     printed_gesture = recognized_gesture
-                    #print("thumb down")
                     kafka_producer.send_command("no")
-                elif recognized_gesture == "Victory":
-                    printed_gesture = recognized_gesture
-                    #print("victory")
-                    pyautogui.press("space")
 
-                pyautogui.PAUSE=0.01
 
                 # Display recognized gesture and confidence 
                 cv2.putText(image, f"Gesture: {printed_gesture} ({confidence:.2f})", 
